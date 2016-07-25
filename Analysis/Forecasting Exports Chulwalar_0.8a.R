@@ -127,12 +127,13 @@ library(fpp)
 library(tcltk)
 
 mywait <- function() {
-    tt <- tktoplevel()
-    tkpack( tkbutton(tt, text='Continue', command=function()tkdestroy(tt)),
-        side='bottom')
-    tkbind(tt,'<Key>', function()tkdestroy(tt) )
+#    tt <- tktoplevel()
+ #   tkpack( tkbutton(tt, text='Continue', command=function()tkdestroy(tt)),
+#        side='bottom')
+#    tkbind(tt,'<Key>', function()tkdestroy(tt) )
 
-    tkwait.window(tt)
+#    tkwait.window(tt)
+ return(c(""))
 }
 
 
@@ -257,7 +258,7 @@ TotalPlan_2014
 # Due to the different scales, it makes sense to plot each graph individually 
 # instead of plotting them all on one set of axes. 
 
-par(mfrow=c(3,2))
+par(mfrow=c(6,2))
 
 plot(TotalAsIs, col="black", main="TotalAsIs")
 plot(EfakAsIs , col="red",main="EfakAsIs")
@@ -266,8 +267,8 @@ plot(TotalEtelAsIs, col="green",main="TotalEtelAsIs")
 plot(BlueEtelAsIs, col="orange", main="BlueEtelAsIs")
 plot(RedEtelAsIs, col="purple", main="RedEtelAsIs")
 
-mywait()
-mywait()
+#mywait()
+#mywait()
 
 plot(TotalPlan , col="black", main="TotalPlan")
 plot(EfakPlan , col="red",main="EfakPlan")
@@ -276,7 +277,7 @@ plot(TotalEtelPlan, col="green",main="TotalEtelPlan")
 plot(BlueEtelPlan, col="orange", main="BlueEtelPlan")
 plot(RedEtelPlan, col="purple", main="RedEtelPlan")
 
-mywait()
+#mywait()
 
 #################################################################################
 #  2.2 Correlation between As Is and Plan data                                  #
@@ -294,7 +295,7 @@ cor(BlueEtelAsIs , BlueEtelPlan)
 cor(RedEtelAsIs , RedEtelPlan)
 cor(YearAsIs, YearPlan)
 
-mywait()
+#mywait()
 
 # The results show a very high planning accuracy. 
 
@@ -327,7 +328,7 @@ RedEtelAsIs_stl <- stl(RedEtelAsIs , s.window=5)
 
 # The trend of the total exports is almost linear. A relatively uniform 
 # seaonality can be seen.
-
+dev.off()
 par(mfrow=c(3,2))
 
 plot(TotalAsIs_stl, col="black", main="TotalAsIs_stl")
@@ -374,7 +375,7 @@ mywait()
 # The modification of the seasonlity component can also be changed into a
 # monthly view. It only makes sense to do this if the seasonality componant as
 # the trend looks almost identical and the remainder is then randomly spread. 
-
+par(mfrow=c(3,2))
 monthplot(TotalAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
 monthplot(EfakAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
 monthplot(WugeAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
@@ -396,7 +397,7 @@ mywait()
 
 # The following indicators are to be tested:
 #
-#     1     Monthly Change in Export Price Index (CEPI)
+#   1   Monthly Change in Export Price Index (CEPI)
 #  	2 	Monthly Satisfaction Index (SI) government based data
 #  	3 	Average monthly temperatures in Chulwalar
 #  	4 	Monthly births in Chulwalar
@@ -408,8 +409,8 @@ mywait()
 #  	10 	National Holidays
 #  	11 	Chulwalar Index (Total value of all companies in Chulwalar)
 #  	12	Monthly Inflation rate in Chulwalar
-#	13	Proposed spending for National Holidays
-#     14    Influence of National Holiday
+# 	13	Proposed spending for National Holidays
+#   14  Influence of National Holiday
 #
 # The indicators will be converted into individual  vectors and subsequently
 # converted into time series. The correlation of the indicators will then be
@@ -734,8 +735,10 @@ summary(TotalAsIsWithoutNovDec2013)
 # thirteen indicators will be compared with eachother in a correlation 
 # coefficient matrix. First of all it is necessary to summarise all indicators 
 # in a matrix.
-
-IndicatorsMatrix <-cbind(CEPIVector, SIGovVector, TemperatureVector, BirthsVector, SIGovVector, UrbanoExportsVector, GlobalisationPartyMembersVector, AEPIVector, PPIEtel, NationalHolidaysVector, ChulwalarIndexVector, InflationVector, IndependenceDayPresentsVector)
+# 
+#Typo in this line
+#IndicatorsMatrix <-cbind(CEPIVector, SIGovVector, TemperatureVector, BirthsVector, SIGovVector, UrbanoExportsVector, GlobalisationPartyMembersVector, AEPIVector, PPIEtel, NationalHolidaysVector, ChulwalarIndexVector, InflationVector, IndependenceDayPresentsVector)
+IndicatorsMatrix <-cbind(CEPIVector, SIGovVector, TemperatureVector, BirthsVector, SIExternVector, UrbanoExportsVector, GlobalisationPartyMembersVector, AEPIVector, PPIEtel, NationalHolidaysVector, ChulwalarIndexVector, InflationVector, IndependenceDayPresentsVector)
 
 # Establish the standardised data matrix
 
@@ -1510,7 +1513,7 @@ summary(Model_holt_1)
 plot(Model_holt_1)
 
 # The trend is exponential if the intercepts(level) and the gradient (slope) are
-# multiplied with eachother. The values are worse. As the Beta was very low in 
+# multiplied with each other. The values are worse. As the Beta was very low in 
 # the optimisation, the forecast is very similar to the ses() model. 
 
 
@@ -1533,7 +1536,7 @@ Model_holt_4 <- holt(TotalAsIs, exponential=TRUE, damped=TRUE,h=12)
 summary(Model_holt_4)
 plot(Model_holt_4)
 
-
+par(mfrow=c(1,4))
 # level and slope can be plotted individually for each model. 
 plot(Model_holt_1$model$state)
 plot(Model_holt_2$model$state)
