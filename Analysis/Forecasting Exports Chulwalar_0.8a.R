@@ -1493,6 +1493,7 @@ PointForecast_2014_alternative
 # default), alpha will be set to the optimal value based on ets().
 # h=12 gives the number of cycles for the forecast.
 
+rm(OverallSummary)
 Model_ses <- ses(TotalAsIs, h=12)
 summary(Model_ses)
 plot(Model_ses)
@@ -1523,6 +1524,7 @@ plot(Model_holt_1)
 accuracy(Model_holt_1)
 
 OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_holt_1))
+OverallSummary_df <- as.data.frame.matrix(OverallSummary)
 
 # The trend is exponential if the intercepts(level) and the gradient (slope) are
 # multiplied with each other. The values are worse. As the Beta was very low in 
@@ -1986,7 +1988,34 @@ Model_dynreg_auto.arima_PointForecast
 ############Couldnt figure out how to make this a dataframe######################
 class(OverallSummary)
 OverallSummary
+names(OverallSummary)
 
+sorted_mtx <-OverallSummary[order(OverallSummary[,"AIC"]),]
+
+
+OverallSummary_df <- as.data.frame.matrix(OverallSummary,row.names = FALSE)
+OverallSummary_tbl <- as.data.table(OverallSummary_df)
+OverallSummary_tb <- as.table(OverallSummary_df)
+class(OverallSummary_df)
+
+SortSummary <- OverallSummary_df[order(OverallSummary_df$AIC), ]
+
+class(OverallSummary_df$AIC)
+class(OverallSummary_tbl)
+class(OverallSummary_tbl$AIC)
+arrange(OverallSummary_tbl,AIC)
+
+OverallSummary_df <- cbind(row=row.names(OverallSummary_df),OverallSummary_df)
+plyr::arrange(OverallSummary_df,"AIC")
+plyr::arrange(OverallSummary_df,"AIC",na.last=TRUE,ties.method="first")
+dplyr::arrange(OverallSummary_df,AIC)
+dplyr::arrange(OverallSummary_df,"AIC",na.last=TRUE,ties.method="first")
+
+
+class(OverallSummary_df$AIC)
+OverallSummary_df$AIC
+
+plyr::arrange(OverallSummary_df,desc(AIC),na.last=TRUE,ties.method="first")
 
 #################################################################################
 ###                                                                           ###

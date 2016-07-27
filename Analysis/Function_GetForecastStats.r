@@ -1,4 +1,8 @@
-
+library("data.table")
+library(fpp) # for time series forecasting and analysis
+library(forecast)
+library("plyr")
+library("dplyr")
 
 GetForecastStats <- function(forecastname) {
   methodname <- deparse(substitute(forecastname))
@@ -9,9 +13,9 @@ GetForecastStats <- function(forecastname) {
     aic <- forecastname$aic } else if (class(forecastname)=="lm") {
       classtype <- c("lm")} else if (class(forecastname)=="matrix") {
       classtype <- c("matrix")} else if (class(forecastname)=="forecast") {
-          aic   <- as.vector(forecastname$model$aic)
+          aic   <- as.numeric(forecastname$model$aic)
       classtype <- c("forecast")} else if (class(forecastname)=="ets") {
-          aic       <- as.vector(forecastname$aic)
+          aic       <- as.numeric(forecastname$aic)
           classtype <- c("ets")   
         } 
   
