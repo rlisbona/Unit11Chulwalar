@@ -7,7 +7,7 @@ output:
     keep_md: true
 ---
 
-Introduction: The Prime Minister of Chulwar personally invited inspiring SMU Data Scientist Students "Randy Lisbona" and "Christopher Farrar" to help them out with their forecast data. 
+Introduction: The Prime Minister of Chulwar personally invited aspiring SMU Data Scientist Students "Randy Lisbona" and "Christopher Farrar" to help them out with their forecast data. 
 
 # Set Up
 ```{r}
