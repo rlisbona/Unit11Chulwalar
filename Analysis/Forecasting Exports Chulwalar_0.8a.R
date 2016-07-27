@@ -258,7 +258,7 @@ TotalPlan_2014
 # Due to the different scales, it makes sense to plot each graph individually 
 # instead of plotting them all on one set of axes. 
 
-par(mfrow=c(6,2))
+par(mfrow=c(3,2))
 
 plot(TotalAsIs, col="black", main="TotalAsIs")
 plot(EfakAsIs , col="red",main="EfakAsIs")
@@ -1193,6 +1193,12 @@ summary(TotalAsIs_2013_lm)
 
 
 #################################################################################
+###                                                                           ###
+###  6. Forecast for 2014                                                     ###
+###                                                                           ###
+#################################################################################
+
+#################################################################################
 #  5.2.3 Forecast ModelWithEfakExportsIndicators                                #
 #################################################################################
 
@@ -1383,6 +1389,7 @@ cor(ModelWithNationalHolidays_PointForecast, TotalAsIs_2013)
 ModelWithInfluenceNationalHolidays_2012 <- tslm(TotalAsIs_2012 ~ trend + season + InfluenceNationalHolidays_2012)
 summary(ModelWithInfluenceNationalHolidays_2012) 
 
+
 # Add "newdata" to the 2013 indicator values for the forecast.
 ModelWithInfluenceNationalHolidays_Forecast <- forecast(ModelWithInfluenceNationalHolidays_2012, newdata=data.frame(InfluenceNationalHolidays_2012=InfluenceNationalHolidaysVector_2013), h=12)
 plot(ModelWithInfluenceNationalHolidays_Forecast,main="ModelWithInfluenceNationalHolidays_Forecast")
@@ -1400,12 +1407,6 @@ cor(ModelWithInfluenceNationalHolidays_PointForecast, TotalAsIs_2013)
 cor(TotalAsIs_2013, TotalPlan_2013)
 
 cor(TotalAsIs_2013, TotalPlan_2013)
-
-#################################################################################
-###                                                                           ###
-###  6. Forecast for 2014                                                     ###
-###                                                                           ###
-#################################################################################
 
 
 # As ModelWithLowCorrelatingIndicators was the one of best fitting model for a forecast, the exports data for 2014 will be forecast
@@ -1479,7 +1480,13 @@ PointForecast_2014_alternative
 #################################################################################
 #  7.1.1 Simple expontential smoothing                                          #
 #################################################################################
-
+#################################################################################
+#################################################################################
+#################################################################################
+#################################################################################
+#################################################################################
+#################################################################################
+#################################################################################
 # Formula: ses(). It must be decided if alpha (the smoothing parameter
 # should be automatically calculated. If initial=simple, the alpha value can 
 # be set to any chosen value, if initial=optimal (or nothing, as this is the 
@@ -1489,6 +1496,8 @@ PointForecast_2014_alternative
 Model_ses <- ses(TotalAsIs, h=12)
 summary(Model_ses)
 plot(Model_ses)
+OverallSummary <- GetForecastStats(Model_ses)
+
 
 # The Akaike's Information Criterion(AIC/AICc) or the Bayesian Information 
 # Criterion (BIC) should be at minimum.
@@ -1511,6 +1520,9 @@ legend("topleft",lty=1, col=c(1,"green"), c("data", expression(alpha == 0.671)),
 Model_holt_1 <- holt(TotalAsIs,h=12)
 summary(Model_holt_1)
 plot(Model_holt_1)
+accuracy(Model_holt_1)
+
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_holt_1))
 
 # The trend is exponential if the intercepts(level) and the gradient (slope) are
 # multiplied with each other. The values are worse. As the Beta was very low in 
@@ -1520,7 +1532,8 @@ plot(Model_holt_1)
 Model_holt_2<- holt(TotalAsIs, exponential=TRUE,h=12)
 summary(Model_holt_2)
 plot(Model_holt_2)
-
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_holt_2))
+                        
 # As such simple trends tend to forecast the future to positively, we have added
 # a dampener.
 # Similar values to that of Model_holt_1 
@@ -1528,6 +1541,7 @@ plot(Model_holt_2)
 Model_holt_3 <- holt(TotalAsIs, damped=TRUE,h=12)
 summary(Model_holt_3)
 plot(Model_holt_3)
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_holt_3))
 
 # This also works for exponential trends. 
 # The values remain worse. 
@@ -1535,7 +1549,8 @@ plot(Model_holt_3)
 Model_holt_4 <- holt(TotalAsIs, exponential=TRUE, damped=TRUE,h=12)
 summary(Model_holt_4)
 plot(Model_holt_4)
-
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_holt_4))
+                        
 par(mfrow=c(1,4))
 # level and slope can be plotted individually for each model. 
 plot(Model_holt_1$model$state)
@@ -1575,12 +1590,16 @@ legend("topleft",lty=1, col=c(1,"purple","blue","red","green","orange"), c("data
 Model_hw_1 <- hw(TotalAsIs ,seasonal="additive",h=12)
 summary(Model_hw_1)
 plot(Model_hw_1)
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_hw_1))
+                        
 #     AIC     AICc      BIC 
 #2127.984 2137.875 2164.411 
 
 Model_hw_2 <- hw(TotalAsIs ,seasonal="multiplicative",h=12)
 summary(Model_hw_2)
 plot(Model_hw_2)
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_hw_2))
+                        
 #     AIC     AICc      BIC 
 #2137.673 2147.564 2174.100 
 
@@ -1619,10 +1638,16 @@ Model_hw_2_PointForecast
 
 Model_ets <-ets(TotalAsIs, model="ZZZ", damped=NULL, alpha=NULL, beta=NULL, gamma=NULL, phi=NULL, additive.only=FALSE, lambda=NULL, lower=c(rep(0.0001,3), 0.8), upper=c(rep(0.9999,3),0.98), opt.crit=c("lik","amse","mse","sigma","mae"), nmse=3, bounds=c("both","usual","admissible"), ic=c("aicc","aic","bic"), restrict=TRUE)
 summary(Model_ets)
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_ets))
+class(Model_ets)                        
+Model_ets[1:12]
+
+
 
 plot(Model_ets)
 Model_ets_forecast <- forecast(Model_ets,h=12)
 plot(Model_ets_forecast)
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_ets_forecast))
 #     AIC     AICc      BIC 
 #2127.984 2137.875 2164.411 
 
@@ -1729,66 +1754,85 @@ lines(ChulwalarDiff_lag, col="red")
 Model_ARIMA_1  <- Arima(TotalAsIs, order=c(0,1,0))
 summary(Model_ARIMA_1 )
 plot(forecast(Model_ARIMA_1 ))
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_ARIMA_1))
+
+
+
+
+
 #AIC=2101.93   AICc=2101.99   BIC=2104.19
 
 Model_ARIMA_2 <- Arima(TotalAsIs, order=c(1,1,0))
 summary(Model_ARIMA_2)
 plot(forecast(Model_ARIMA_2))
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_ARIMA_2))
 #AIC=2099.2   AICc=2099.38   BIC=2103.72
 
 Model_ARIMA_3 <- Arima(TotalAsIs, order=c(1,1,1))
 summary(Model_ARIMA_3)
 plot(forecast(Model_ARIMA_3))
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_ARIMA_3))
 #AIC=2093.09   AICc=2093.45   BIC=2099.88
 
 Model_ARIMA_4 <- Arima(TotalAsIs, order=c(2,1,1))
 summary(Model_ARIMA_4)
 plot(forecast(Model_ARIMA_4))
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_ARIMA_4))
 #AIC=2095.08   AICc=2095.68   BIC=2104.13
 
 Model_ARIMA_5 <- Arima(TotalAsIs, order=c(2,1,2))
 summary(Model_ARIMA_5)
 plot(forecast(Model_ARIMA_5))
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_ARIMA_5))
 #AIC=2091.07   AICc=2092   BIC=2102.39
 
 Model_ARIMA_6 <- Arima(TotalAsIs, order=c(3,1,2))
 summary(Model_ARIMA_6)
 plot(forecast(Model_ARIMA_6))
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_ARIMA_6))
 #AIC=2092.3   AICc=2093.61   BIC=2105.87
 
 Model_ARIMA_7 <- Arima(TotalAsIs, order=c(3,1,3))
 summary(Model_ARIMA_7)
 plot(forecast(Model_ARIMA_7))
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_ARIMA_7))
 #AIC=2094.03   AICc=2095.81   BIC=2109.87
 
 Model_ARIMA_8 <- Arima(TotalAsIs, order=c(3,1,1))
 summary(Model_ARIMA_8)
 plot(forecast(Model_ARIMA_8))
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_ARIMA_8))
 #AIC=2096.57   AICc=2097.5   BIC=2107.89
+
 
 Model_ARIMA_9 <- Arima(TotalAsIs, order=c(3,1,2))
 summary(Model_ARIMA_9)
 plot(forecast(Model_ARIMA_9))
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_ARIMA_9))
 #AIC=2092.3   AICc=2093.61   BIC=2105.87
 
 Model_ARIMA_10 <- Arima(TotalAsIs, order=c(1,1,3))
 summary(Model_ARIMA_10)
 plot(forecast(Model_ARIMA_10))
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_ARIMA_10))
 #AIC=2096.69   AICc=2097.61   BIC=2108
 
 Model_ARIMA_11 <- Arima(TotalAsIs, order=c(2,1,3))
 summary(Model_ARIMA_11)
 plot(forecast(Model_ARIMA_11))
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_ARIMA_11))
 #AIC=2085.22   AICc=2086.53   BIC=2098.8
 
 Model_ARIMA_12 <- Arima(TotalAsIs, order=c(2,2,3))
 summary(Model_ARIMA_12)
 plot(forecast(Model_ARIMA_12))
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_ARIMA_12))
 #AIC=2065.39   AICc=2066.72   BIC=2078.88
 
 Model_ARIMA_13 <- Arima(TotalAsIs, order=c(2,3,2))
 summary(Model_ARIMA_13)
 plot(forecast(Model_ARIMA_13))
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_ARIMA_13))
 #AIC=2061.27   AICc=2062.22   BIC=2072.44
 
 Acf(residuals(Model_ARIMA_13))
@@ -1808,17 +1852,20 @@ Box.test(residuals(Model_ARIMA_13), lag=12, fitdf=4, type="Ljung")
 Model_Seasonal_ARIMA_0 <- Arima(TotalAsIs, order=c(0,0,0), seasonal=c(1,0,0))
 tsdisplay(residuals(Model_Seasonal_ARIMA_0))
 summary(Model_Seasonal_ARIMA_0)
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_Seasonal_ARIMA_0))
 #AIC=2105.79   AICc=2106.14   BIC=2112.62
 
 Model_Seasonal_ARIMA_1 <- Arima(TotalAsIs, order=c(0,1,1), seasonal=c(0,1,1))
 summary(Model_Seasonal_ARIMA_1)
 plot(forecast(Model_Seasonal_ARIMA_1))
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_Seasonal_ARIMA_1))
 #AIC=1672.88   AICc=1673.31   BIC=1679.11
 
 # Insert the values from the previous chapter for the non-seasonal values. 
 Model_Seasonal_ARIMA_2 <- Arima(TotalAsIs, order=c(2,3,2), seasonal=c(1,1,1))
 tsdisplay(residuals(Model_Seasonal_ARIMA_2))
 summary(Model_Seasonal_ARIMA_2)
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_Seasonal_ARIMA_2))
 plot(forecast(Model_Seasonal_ARIMA_2))
 # AIC=1630.23   AICc=1632.51   BIC=1644.53
 
@@ -1826,12 +1873,14 @@ plot(forecast(Model_Seasonal_ARIMA_2))
 Model_Seasonal_ARIMA_3 <- Arima(TotalAsIs, order=c(1,0,1), seasonal=c(1,1,1),include.drift=TRUE)
 tsdisplay(residuals(Model_Seasonal_ARIMA_3))
 summary(Model_Seasonal_ARIMA_3)
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_Seasonal_ARIMA_3))
 plot(forecast(Model_Seasonal_ARIMA_3))
 # AIC=1355.99   AICc=1357.58   BIC=1368.56
 
 Model_Seasonal_ARIMA_4 <- Arima(TotalAsIs, order=c(2,3,2), seasonal=c(1,3,2))
 tsdisplay(residuals(Model_Seasonal_ARIMA_4))
 summary(Model_Seasonal_ARIMA_4)
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_Seasonal_ARIMA_4))
 plot(forecast(Model_Seasonal_ARIMA_4))
 # AIC=1630.23   AICc=1632.51   BIC=1644.53
 # The stronger the seasonality is differenced, the better the results are. However the 
@@ -1840,6 +1889,7 @@ plot(forecast(Model_Seasonal_ARIMA_4))
 Model_Seasonal_ARIMA_5 <- Arima(TotalAsIs, order=c(2,3,2), seasonal=c(1,4,2))
 tsdisplay(residuals(Model_Seasonal_ARIMA_5))
 summary(Model_Seasonal_ARIMA_5)
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_Seasonal_ARIMA_5))
 plot(forecast(Model_Seasonal_ARIMA_5))
 # AIC=765   AICc=777   BIC=773.36
 
@@ -1862,7 +1912,10 @@ plot(forecast(Model_Seasonal_ARIMA_5))
 
 Model_auto.arima <- auto.arima(TotalAsIs)
 summary(Model_auto.arima)
-CV(ModelWithTrendAndSeasonalityOnly)
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_auto.arima))
+
+
+
 
 Acf(residuals(Model_auto.arima))
 Box.test(residuals(Model_auto.arima), lag=12, fitdf=4, type="Ljung")
@@ -1898,9 +1951,11 @@ CEPI_2014_lagged <- ts(CEPI_2013, start=c(2014,1), end=c(2014,12), frequency=12)
 Model_dynreg <- Arima(TotalAsIs, xreg=CEPI_lagged, order=c(2,2,0))
 tsdisplay(arima.errors(Model_dynreg), main="ARIMA errors")
 summary(Model_dynreg)
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_dynreg))
 
 Model_dynreg_auto.arima <- auto.arima(TotalAsIs, xreg=CEPI_lagged)
 summary(Model_dynreg_auto.arima)
+OverallSummary <- rbind(OverallSummary,GetForecastStats(Model_dynreg_auto.arima))
 tsdisplay(arima.errors(Model_dynreg_auto.arima), main="ARIMA errors")
 # ARIMA(2,0,1)(0,1,1)[12] with drift 
 # AIC=1343.61   AICc=1345.76   BIC=1358.27
@@ -1923,6 +1978,15 @@ Model_dynreg_auto.arima_PointForecast
 
 # Output instruction for the data export of the results for further use in Excel.
 #write.csv(Model_dynreg_auto.arima_PointForecast,file='Model_dynreg_auto.arima_PointForecast.csv')
+
+
+
+#################################################################################
+#################################################################################
+############Couldnt figure out how to make this a dataframe######################
+class(OverallSummary)
+OverallSummary
+
 
 #################################################################################
 ###                                                                           ###
