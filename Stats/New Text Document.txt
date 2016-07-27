@@ -1,0 +1,10 @@
+Yes. For now, do not get into the formulation of AIC. Just remember that lower the better.
+
+Yes, you will need a couple of measurements to select the model. RMSE is a good metric. 
+Also, compare these numbers for different models as they will not make much sense on their own.
+
+You have to select a couple of error measurements (RMSE, AIC for example) and compare those values across all models. 
+Select the one which has the minimum for these values and also visually check for a good fit.
+
+
+You are supposed to make the code modular, include interpretations for the graphs and also select the best method from the already implemented ones. 

@@ -1,0 +1,50 @@
+Case Study Deliverables
+
+
+Section the code into modules for importing the data, cleaning/modifying the data, exploring data, analyzing data
+ - 2 different use cases to run
+     Forecast and Arima
+ - Was the following used, SES, HOLT, hw
+
+
+Interpretation:
+
+
+What is the best model for the export data? How do you define best (Stats methodology) 
+
+Which forecast model is the best fit? How do you define it (Stats methodlogy)
+
+More than one model may be equally good. How do you choose among equally good models. 
+
+
+Forecast accuracy measures (This would go toward the interpretation)
+ME		Mean Error
+RMSE		Root Mean Squared Error
+MAE		Mean Absolute Error
+MPE		Mean percentage error
+MAPE		Mean absolute percentage error
+MASE		Mean absolute scaled error
+ACF1		Autocorrelation errors at lag
+THEIU
+
+Final Conclusion
+
+ - Give conclusion of analysis of forecasting exports
+
+
+
+
+
+Notes from emails
+ - Yes. For now, do not get into the formulation of AIC. Just remember that lower the better.
+
+ - Yes, you will need a couple of measurements to select the model. RMSE is a good metric. 
+ - Also, compare these numbers for different models as they will not make much sense on their own.
+
+ - You have to select a couple of error measurements (RMSE, AIC for example) and compare those values across all models.    
+ - Select the one which has the minimum for these values and also visually check for a good fit.
+
+
+ - You are supposed to make the code modular, include interpretations for the graphs and also select the best method from the already implemented ones. 
+
+
