@@ -1,7 +1,7 @@
 ---
 title: "ChulwalarStudy"
-author: "Monnie McGee"
-date: "July 16, 2016"
+author: "Randy Lisbona, Christopher Farrar"
+date: "July 27, 2016"
 output:
   html_document:
     keep_md: true
