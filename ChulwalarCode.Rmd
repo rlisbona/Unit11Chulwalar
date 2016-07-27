@@ -7,7 +7,7 @@ output:
     keep_md: true
 ---
 
-This example roughly follows the code given in the "Forecasting Exports Chulwalar_0.8a.R" file found in the Chulwalar Case Study zip file.
+Introduction: The Prime Minister of this country called Chulwar invited inspiring SMU Data Scientist Students "Randy Lisbona" and "Christopher Farrar" to help them out with there forecast data. 
 
 # Set Up
 ```{r}
