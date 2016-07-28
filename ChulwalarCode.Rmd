@@ -34,13 +34,13 @@ library(knitr)
 # Import the data
 ```{r import, echo = FALSE}
 getwd()
-source("./Analysis/ImportChulwalar.R", echo = TRUE, print.eval=FALSE)
+source("./Analysis/ImportChulwalar.R", echo = FALSE, print.eval=FALSE)
 ```
 
 #  Transform data into time series
 In order to be able to work with the partial data sets later, these need to be split into individual vectors and converted into times series.
 
-```{r ExtractAndTransformToTimeSeries, echo = FALSE, printeval=FALSE}
+```{r ExtractAndTransformToTimeSeries, echo = FALSE, eval=TRUE}
 source("./Analysis/TransformToTimeSeries.R", echo = FALSE,print.eval=FALSE)
 ```
 # Basic data analysis
