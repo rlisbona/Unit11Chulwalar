@@ -25,7 +25,7 @@ output:
 getwd()
 knitr::opts_knit$set(root.dir = normalizePath("..."))
 
-library(fpp) # for time series forecasting and analysis
+library(fpp) # for time series forecasting and analysis  This is a minor change can I push it out
 library(forecast) # for some other forecasting models
 library(xtable)
 library(knitr)
