@@ -3,158 +3,40 @@ Randy Lisbona, Christopher Farrar
 July 27, 2016  
 
 # Introduction
-  The Prime Minister of Chulwalar personally invited aspiring SMU Data Scientist Students "Randy Lisbona" and
-  "Christopher Farrar" to help them out with their forecast data.In understanding his concerns, Randy and Chris
-  were empowered to answer the following questions in supporting the prime minister.
+  The Prime Minister of Chulwalar personally invited aspiring SMU Data Scientist Students Randy Lisbona and
+  Christopher Farrar to analyze and forecast the islands export data for the year 2015.  Randy and Chris were granted access to the islands economic data and chief statistical scientist, in order to answer the following questions.  
   
-  * What is the best model for the export data and how we define the best?
+  1. What is the best model for the export data and how we define the best?
   
-  * Which forecast model is the best fit and how we define it
+  2. Which forecast model is the best fit and how we define it
   
-  * All of the different models we could consider could be useful or good. How do we choose among equally good
+  3. All of the different models we could consider could be useful or good. How do we choose among equally good
    models
 
-# Set Up
 
-```r
-getwd()
-```
 
-```
-## [1] "C:/Users/anobs/Documents/GitHub/Unit11CaseStudyChulwalhar"
-```
 
-```r
-knitr::opts_knit$set(root.dir = normalizePath("..."))
+## Analysis steps -Import the data
+  The source files provided by the Chulwalar department of statistical analysis and forecasting were imported into R 3.3.1 for time series analysis,  These files were current as of July 18, 2016, reflecting Chulwalar exports data as of December 2015
+  
+  1. ImportedAsIsDataChulwalar.csv
+  2. ImportedPlanDataChulwalar.csv
+  3. ImportedIndicatorsChulwalar.csv
+  
 
-library(fpp) # for time series forecasting and analysis
-```
 
-```
-## Loading required package: forecast
-```
-
-```
-## Loading required package: zoo
-```
-
-```
-## 
-## Attaching package: 'zoo'
-```
-
-```
-## The following objects are masked from 'package:base':
-## 
-##     as.Date, as.Date.numeric
-```
-
-```
-## Loading required package: timeDate
-```
-
-```
-## This is forecast 7.1
-```
-
-```
-## Loading required package: fma
-```
-
-```
-## Loading required package: tseries
-```
-
-```
-## Loading required package: expsmooth
-```
-
-```
-## Loading required package: lmtest
-```
-
-```r
-library(forecast) # for some other forecasting models
-library(xtable)
-```
-
-```
-## 
-## Attaching package: 'xtable'
-```
-
-```
-## The following object is masked from 'package:timeDate':
-## 
-##     align
-```
-
-```r
-library(knitr)
-```
-
-# Import the data
-
-```
-## [1] "C:/Users/anobs/Documents/GitHub/Unit11CaseStudyChulwalhar"
-```
-
-```
-## 'data.frame':	98 obs. of  8 variables:
-##  $ V1: Factor w/ 22 levels "","Apr","Aug",..: 19 9 8 13 2 14 11 10 3 18 ...
-##  $ V2: int  2008 2313221 1950131 2346635 2039787 1756964 1458302 1679637 1639670 2882886 ...
-##  $ V3: int  2009 2610573 2371327 2743786 2125308 1850073 1836222 1797311 1851968 3271171 ...
-##  $ V4: int  2010 2760688 2918333 3227041 1613888 2550157 2317645 1474144 2148521 3898571 ...
-##  $ V5: int  2011 3112861 2926663 3294784 2577079 2774068 2378227 2222900 2991787 4151531 ...
-##  $ V6: int  2012 3093088 3679308 3433364 2714899 3011767 2726028 2483834 3055655 4200796 ...
-##  $ V7: int  2013 4119526 3535744 3560974 3760065 2959933 2787898 2828744 3084113 5107775 ...
-##  $ V8: int  2014 4308161 4155378 3924332 3659121 3898758 3313891 3595106 3502426 5619059 ...
-## 'data.frame':	97 obs. of  8 variables:
-##  $ V1: Factor w/ 20 levels "","Apr","Aug",..: 19 7 6 11 2 12 9 8 3 15 ...
-##  $ V2: int  2008 2243103 2162705 2720911 2011182 1877757 1819924 1682196 1893171 3325711 ...
-##  $ V3: int  2009 2547980 2247049 2731156 2020158 2098038 1927995 1783692 1907705 3124040 ...
-##  $ V4: int  2010 2965885 2751170 2906493 2383358 2246893 1992851 2023434 2244997 3257717 ...
-##  $ V5: int  2011 3113110 2883766 2957893 2601648 2370949 2339881 2105328 2341623 4086297 ...
-##  $ V6: int  2012 3895396 3588151 3787240 3036434 2907891 2707822 2619486 3784557 4987460 ...
-##  $ V7: int  2013 3580325 3863212 3606083 3213575 3139128 2998610 2785453 3083654 5143757 ...
-##  $ V8: int  2014 4474000 4185565 4278119 3985542 3605973 3515173 3269444 3656112 5637391 ...
-## 'data.frame':	195 obs. of  8 variables:
-##  $ V1: Factor w/ 28 levels "","Apr","Aug",..: 7 16 12 20 2 19 18 17 3 26 ...
-##  $ V2: num  2008 97.4 97.8 98.3 98.1 ...
-##  $ V3: num  2009 98.3 98.9 98.7 98.8 ...
-##  $ V4: num  2010 99 99.4 99.9 100 ...
-##  $ V5: num  2011 101 101 102 102 ...
-##  $ V6: num  2012 103 104 104 104 ...
-##  $ V7: num  2013 104 105 106 105 ...
-##  $ V8: num  2014 NA NA NA NA ...
-```
-
-#  Transform data into time series
+##  Transform data into time series
 In order to be able to work with the partial data sets later, these need to be split into individual vectors and converted into times series.
+1. For details on time series conversion please refer to source file "./Analysis/TransformToTimeseries.R"
 
 
-```
-##  Time-Series [1:72] from 2008 to 2014: 2313221 1950131 2346635 2039787 1756964 1458302 1679637 1639670 2882886 2959716 ...
-##  Time-Series [1:72] from 2008 to 2014: 416589 472565 466539 370774 457741 384817 464502 389013 508370 495598 ...
-##  Time-Series [1:72] from 2008 to 2014: 414571 344579 429907 379606 305697 314582 346800 323618 578252 510031 ...
-##  Time-Series [1:72] from 2008 to 2014: 1279668 1053325 1367520 1090725 873568 644479 772658 806741 1715265 1795751 ...
-##  Time-Series [1:72] from 2008 to 2014: 425892 316631 353512 278711 212940 187849 206285 195810 448733 403327 ...
-##  Time-Series [1:72] from 2008 to 2014: 853776 736694 1014008 812014 660628 456630 566373 610931 1266532 1392424 ...
-##  Time-Series [1:72] from 2008 to 2014: 26280011 29609916 32726772 37215503 40629676 45408410 26280011 29609916 32726772 37215503 ...
-##  Time-Series [1:12] from 2014 to 2015: 4308161 4155378 3924332 3659121 3898758 3313891 3595106 3502426 5619059 5274287 ...
-##  Time-Series [1:72] from 2008 to 2014: 2243103 2162705 2720911 2011182 1877757 1819924 1682196 1893171 3325711 2662148 ...
-##  Time-Series [1:72] from 2008 to 2014: 492421 444995 665274 444369 487668 445242 443318 501222 546249 553286 ...
-##  Time-Series [1:72] from 2008 to 2014: 424190 388688 457796 363828 364246 358439 321255 370153 645618 470648 ...
-##  Time-Series [1:72] from 2008 to 2014: 1263613 1231125 1489621 1051346 933392 932047 855520 923070 2080877 1575579 ...
-##  Time-Series [1:72] from 2008 to 2014: 449227 373663 415732 331337 290942 287603 245390 284540 554127 467772 ...
-##  Time-Series [1:72] from 2008 to 2014: 814386 857462 1073889 720009 642450 644444 610130 638530 1526750 1107807 ...
-##  Time-Series [1:72] from 2008 to 2014: 27883407 29387100 32780247 35224132 43947063 44152007 27883407 29387100 32780247 35224132 ...
-##  Time-Series [1:12] from 2014 to 2015: 4474000 4185565 4278119 3985542 3605973 3515173 3269444 3656112 5637391 5157781 ...
-```
 # Basic data analysis
 
 ## Correlation between As Is and Plan Data
-Test the correlation between As Is and Plan data in order to test how exact the planning is. Correlation is a measure of linear relationship between two variables. 
+Initial analysis involved checking correlation between As Is and Plan data in order to test how exact the planning is. 
+  1. Correlation is a measure of linear relationship between two variables. 
+  2. The Chulwalar department of statistical analysis and forecasting has done a commendable job in developing the Plan Data!
+  
 
 Table: Correlation between As and Plan data
 
@@ -170,11 +52,6 @@ YearAsIs-YearPlan             0.96
 
 The results show a very high planning accuracy. 
 
-
-```r
-TotalAsIs_lm <- lm(TotalAsIs ~ TotalPlan , data = TotalAsIs)
-summary(TotalAsIs_lm)
-```
 
 ```
 ## 
@@ -197,10 +74,8 @@ summary(TotalAsIs_lm)
 ## F-statistic: 376.9 on 1 and 70 DF,  p-value: < 2.2e-16
 ```
 
-```r
-TotalAsIs_tslm <- tslm(TotalAsIs ~ TotalPlan )
-summary(TotalAsIs_tslm)
-```
+
+
 
 ```
 ## 
@@ -230,99 +105,16 @@ The time series can be analysed using the stl function in order to seperate the 
 
 Thus the individual time series can be shown graphically and tabularly. The trend of the total exports is almost linear. A relatively uniform seaonality can be seen.
 
-
-```r
-# Why doesnt mfrow work in this section but it does in next?
-par(mfrow=c(3,2))
-plot(TotalAsIs_stl, col="black", main="TotalAsIs_stl")
-```
-
-![](ChulwalarCode_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
-
-```r
-plot(EfakAsIs_stl, col="black", main="EfakAsIs_stl")
-```
-
-![](ChulwalarCode_files/figure-html/unnamed-chunk-5-2.png)<!-- -->
-
-```r
-plot(WugeAsIs_stl, col="black", main="WugeAsIs_stl")
-```
-
-![](ChulwalarCode_files/figure-html/unnamed-chunk-5-3.png)<!-- -->
-
-```r
-plot(TotalEtelAsIs_stl, col="black", main="TotalEtelAsIs_stl")
-```
-
-![](ChulwalarCode_files/figure-html/unnamed-chunk-5-4.png)<!-- -->
-
-```r
-plot(BlueEtelAsIs_stl, col="black", main="BlueEtelAsIs_stl")
-```
-
-![](ChulwalarCode_files/figure-html/unnamed-chunk-5-5.png)<!-- -->
-
-```r
-plot(RedEtelAsIs_stl, col="black", main="RedEtelAsIs_stl")
-```
-
-![](ChulwalarCode_files/figure-html/unnamed-chunk-5-6.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-3-1.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-3-2.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-3-3.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-3-4.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-3-5.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-3-6.png)<!-- -->
 
 It is interesting to note that the almost linear trend is not seen in the individual segments. The individual trends run partially in opposite directions in the middle of the time scale, which causes the linear trend in the total As Is data.
 
-
-```r
-par(mfrow=c(3,2))
-plot(TotalAsIs_stl$time.series[,"trend"], col="black")
-plot(EfakAsIs_stl$time.series[,"trend"], col="red")
-plot(WugeAsIs_stl$time.series[,"trend"], col="blue")
-plot(TotalEtelAsIs_stl$time.series[,"trend"], col="green")
-plot(BlueEtelAsIs_stl$time.series[,"trend"], col="orange")
-plot(RedEtelAsIs_stl$time.series[,"trend"], col="purple")
-```
-
-![](ChulwalarCode_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 ## Modify seasonal component to a monthly base
 The modification of the seasonlity component can also be changed into a monthly view. It only makes sense to do this if the seasonality componant as the trend looks almost identical and the remainder is then randomly spread.
 
-
-```r
-monthplot(TotalAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
-```
-
-![](ChulwalarCode_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
-
-```r
-monthplot(EfakAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
-```
-
-![](ChulwalarCode_files/figure-html/unnamed-chunk-7-2.png)<!-- -->
-
-```r
-monthplot(WugeAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
-```
-
-![](ChulwalarCode_files/figure-html/unnamed-chunk-7-3.png)<!-- -->
-
-```r
-monthplot(TotalEtelAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
-```
-
-![](ChulwalarCode_files/figure-html/unnamed-chunk-7-4.png)<!-- -->
-
-```r
-monthplot(BlueEtelAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
-```
-
-![](ChulwalarCode_files/figure-html/unnamed-chunk-7-5.png)<!-- -->
-
-```r
-monthplot(RedEtelAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
-```
-
-![](ChulwalarCode_files/figure-html/unnamed-chunk-7-6.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-5-1.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-5-2.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-5-3.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-5-4.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-5-5.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-5-6.png)<!-- -->
 
 ## Correlation with external indicators
 
@@ -346,57 +138,26 @@ The indicators are as follows:
 The indicators will be converted into individual  vectors and subsequently converted into time series. The correlation of the indicators will then be tested against the As Is exports for Chulwalar. 
 
 # Monthly Change in Export Price Index (CEPI)
-
-```r
-CEPIVector <- c(ImportedIndicators[2:13,2],ImportedIndicators[2:13,3],ImportedIndicators[2:13,4],ImportedIndicators[2:13,5],ImportedIndicators[2:13,6],ImportedIndicators[2:13,7])
-CEPI <- ts(CEPIVector , start=c(2008,1), end=c(2013,12), frequency=12)
-plot(CEPI, main="CEPI")
-```
-
-![](ChulwalarCode_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
-
-```r
-cor(TotalAsIs, CEPI)
-```
+![](ChulwalarCode_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 ```
 ## [1] 0.663925
-```
-
-```r
-cor(EfakAsIs , CEPI)
 ```
 
 ```
 ## [1] 0.9303543
 ```
 
-```r
-cor(WugeAsIs, CEPI)
-```
-
 ```
 ## [1] 0.7618551
-```
-
-```r
-cor(TotalEtelAsIs, CEPI)
 ```
 
 ```
 ## [1] 0.339713
 ```
 
-```r
-cor(BlueEtelAsIs , CEPI)
-```
-
 ```
 ## [1] 0.1448837
-```
-
-```r
-cor(RedEtelAsIs , CEPI)
 ```
 
 ```
@@ -411,7 +172,7 @@ SIGov <- ts(SIGovVector , start=c(2008,1), end=c(2013,12), frequency=12)
 plot(SIGov, main="SIGov")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, SIGov)
@@ -469,7 +230,7 @@ Temperature <- ts(TemperatureVector, start=c(2008,1), end=c(2013,12), frequency=
 plot(Temperature, main="Temperature")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, Temperature)
@@ -527,7 +288,7 @@ Births <- ts(BirthsVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(Births, main="Births")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, Births)
@@ -585,7 +346,7 @@ SIExtern <- ts(SIExternVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(SIExtern, main="SIExtern")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, SIExtern)
@@ -643,7 +404,7 @@ UrbanoExports <- ts(UrbanoExportsVector, start=c(2008,1), end=c(2013,12), freque
 plot(UrbanoExports, main="UrbanoExports")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, UrbanoExports)
@@ -701,7 +462,7 @@ GlobalisationPartyMembers <- ts(GlobalisationPartyMembersVector, start=c(2008,1)
 plot(GlobalisationPartyMembers, main="GlobalisationPartyMembers")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, GlobalisationPartyMembers)
@@ -759,7 +520,7 @@ AEPI <- ts(AEPIVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(AEPI, main="AEPI")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, AEPI)
@@ -817,7 +578,7 @@ PPIEtel <- ts(PPIEtelVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(PPIEtel, main="PPIEtel")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, PPIEtel)
@@ -875,7 +636,7 @@ NationalHolidays <- ts(NationalHolidaysVector, start=c(2008,1), end=c(2013,12), 
 plot(NationalHolidays, main="NationalHolidays")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, NationalHolidays)
@@ -933,7 +694,7 @@ ChulwalarIndex <- ts(ChulwalarIndexVector, start=c(2008,1), end=c(2013,12), freq
 plot(ChulwalarIndex, main="ChulwalarIndex")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, ChulwalarIndex)
@@ -991,7 +752,7 @@ Inflation <- ts(InflationVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(Inflation, main="Inflation")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, Inflation)
@@ -1049,7 +810,7 @@ IndependenceDayPresents <- ts(IndependenceDayPresentsVector, start=c(2008,1), en
 plot(IndependenceDayPresents, main="IndependenceDayPresents")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, IndependenceDayPresents)
@@ -1108,7 +869,7 @@ InfluenceNationalHolidays <- ts(InfluenceNationalHolidaysVector, start=c(2008,1)
 plot(InfluenceNationalHolidays, main="InfluenceNationalHolidays")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, InfluenceNationalHolidays)
@@ -1326,7 +1087,7 @@ lines(Model_ses$mean, col="blue", type="o")
 legend("topleft",lty=1, col=c(1,"green"), c("data", expression(alpha == 0.671)),pch=1)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
 
 ## Holt's linear trend method   
 Holt added to the model in order to forecast using trends as well. For this it is necessary to add a beta, which determines the trend. If neither alpha nor beta is stated, both parameters will be optimised using ets(). The trend is exponential if the intercepts(level) and the gradient (slope) are multiplied with eachother. The values are worse. As the Beta was very low in the optimisation, the forecast is very similar to the ses() model. 
@@ -1386,7 +1147,7 @@ summary(Model_holt_1)
 plot(Model_holt_1)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
 
 ```r
 # expoential trend
@@ -1425,76 +1186,25 @@ summary(Model_holt_2)
 ## 
 ## Forecasts:
 ##          Point Forecast   Lo 80   Hi 80   Lo 95    Hi 95
-<<<<<<< HEAD
-## Jan 2014        4488281 3071321 5905172 2320760  6657444
-## Feb 2014        4502175 2840124 6257674 2099843  7338786
-## Mar 2014        4516113 2665583 6539057 1927665  7871150
-## Apr 2014        4530094 2529735 6766997 1862842  8367280
-## May 2014        4544118 2390398 7011708 1663228  9002948
-## Jun 2014        4558186 2265896 7255401 1565364  9552283
-## Jul 2014        4572297 2156967 7498350 1466130  9978117
-## Aug 2014        4586452 2047552 7665960 1372346 10250785
-## Sep 2014        4600650 1946073 7930090 1305772 10747810
-## Oct 2014        4614893 1882123 8046362 1244582 11351486
-## Nov 2014        4629180 1814104 8232758 1144757 11625565
-## Dec 2014        4643510 1768882 8320118 1128301 12161244
-=======
-<<<<<<< HEAD
-## Jan 2014        4488281 3090465 5905649 2333877  6585057
-## Feb 2014        4502175 2869750 6237214 2179486  7254105
-## Mar 2014        4516113 2685877 6482147 1932880  7714919
-## Apr 2014        4530094 2548612 6771663 1822770  8347449
-## May 2014        4544118 2358717 6894120 1639344  8908828
-## Jun 2014        4558186 2269087 7275999 1598783  9531858
-## Jul 2014        4572297 2155771 7452945 1439797  9795064
-## Aug 2014        4586452 2071475 7728810 1373359 10329339
-## Sep 2014        4600650 1941529 7915913 1308906 10818762
-## Oct 2014        4614893 1875131 8091501 1207508 11352766
-## Nov 2014        4629180 1810108 8153271 1121197 11892778
-## Dec 2014        4643510 1757100 8329938 1087677 12427638
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-## Jan 2014        4488281 3128311 5861414 2424975  6590528
-## Feb 2014        4502175 2929632 6192057 2225284  7377046
-## Mar 2014        4516113 2724834 6604148 2075797  7946866
-## Apr 2014        4530094 2567303 6805246 1876503  8605734
-## May 2014        4544118 2423008 7061189 1724333  9149306
-## Jun 2014        4558186 2338112 7234371 1609903  9547294
-## Jul 2014        4572297 2159890 7587953 1472402 10026121
-## Aug 2014        4586452 2084966 7698028 1397287 10101053
-## Sep 2014        4600650 1974010 7809330 1337840 10644014
-## Oct 2014        4614893 1898740 8058561 1237798 11385066
-## Nov 2014        4629180 1821559 8143903 1169729 11552251
-## Dec 2014        4643510 1746802 8374871 1057962 12096172
-=======
-=======
->>>>>>> origin/master
-## Jan 2014        4488281 3060471 5903654 2323887  6624581
-## Feb 2014        4502175 2851883 6185583 2139737  7303804
-## Mar 2014        4516113 2644797 6501809 1905081  7841880
-## Apr 2014        4530094 2500869 6836338 1824345  8496679
-## May 2014        4544118 2374932 7104656 1691885  9056553
-## Jun 2014        4558186 2274687 7218532 1566098  9486479
-## Jul 2014        4572297 2162669 7390353 1463677  9817281
-## Aug 2014        4586452 2079471 7522613 1410278 10240106
-## Sep 2014        4600650 2003849 7639678 1318852 10564703
-## Oct 2014        4614893 1910314 7842706 1243044 11224937
-## Nov 2014        4629180 1806233 8098275 1150033 11699546
-## Dec 2014        4643510 1747147 8292833 1089239 12239483
-<<<<<<< HEAD
->>>>>>> origin/master
-=======
->>>>>>> origin/master
->>>>>>> origin/master
->>>>>>> origin/master
+## Jan 2014        4488281 3083683 5882161 2331396  6645640
+## Feb 2014        4502175 2850334 6283761 2158654  7331126
+## Mar 2014        4516113 2674462 6609629 1966518  7972824
+## Apr 2014        4530094 2549467 6826848 1807503  8552463
+## May 2014        4544118 2455710 7058163 1661041  9050361
+## Jun 2014        4558186 2272417 7342938 1573436  9669375
+## Jul 2014        4572297 2164966 7492909 1457528  9984580
+## Aug 2014        4586452 2088414 7642965 1375226 10374025
+## Sep 2014        4600650 1946786 7943203 1290228 10697234
+## Oct 2014        4614893 1867414 8211320 1188057 11351349
+## Nov 2014        4629180 1768420 8243713 1111472 11836620
+## Dec 2014        4643510 1712185 8458256 1070428 12156199
 ```
 
 ```r
 plot(Model_holt_2)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-24-2.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-22-2.png)<!-- -->
 
 ## Dampened trends
 As such simple trends tend to forecast the future to positively, we have added a dampener. This also works for exponential trends. We also plot the level and slope individually for each model.
@@ -1554,7 +1264,7 @@ summary(Model_holt_3)
 plot(Model_holt_3)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
 
 ```r
 Model_holt_4 <- holt(TotalAsIs, exponential=TRUE, damped=TRUE,h=12)
@@ -1592,105 +1302,51 @@ summary(Model_holt_4)
 ## Training set 0.0254941
 ## 
 ## Forecasts:
-<<<<<<< HEAD
 ##          Point Forecast   Lo 80   Hi 80   Lo 95    Hi 95
-## Jan 2014        4470648 3063046 5843845 2262792  6552328
-## Feb 2014        4473164 2811193 6238182 2140632  7342112
-## Mar 2014        4475630 2664728 6528807 1958875  7912984
-## Apr 2014        4478047 2497543 6816873 1806072  8473880
-## May 2014        4480418 2355349 7082106 1654392  9034800
-## Jun 2014        4482742 2166693 7298814 1468767  9660421
-## Jul 2014        4485020 2093368 7465130 1430615 10169887
-## Aug 2014        4487253 1996678 7653196 1354147 10572801
-## Sep 2014        4489443 1915641 7756513 1252784 10854033
-## Oct 2014        4491589 1810064 7858287 1140981 11287818
-## Nov 2014        4493694 1733674 8095373 1089138 11793640
-## Dec 2014        4495757 1681482 8333940 1021578 12271512
-=======
-<<<<<<< HEAD
-##          Point Forecast   Lo 80   Hi 80   Lo 95    Hi 95
-## Jan 2014        4470648 3046497 5860877 2368925  6613179
-## Feb 2014        4473164 2834578 6205750 2102719  7282479
-## Mar 2014        4475630 2645276 6477493 1958574  7854483
-## Apr 2014        4478047 2476407 6771287 1759854  8556983
-## May 2014        4480418 2331929 6995914 1616711  9003731
-## Jun 2014        4482742 2205852 7193279 1545755  9465077
-## Jul 2014        4485020 2083528 7356816 1373434  9798596
-## Aug 2014        4487253 1947654 7537031 1307802 10314664
-## Sep 2014        4489443 1886495 7723230 1230072 10810228
-## Oct 2014        4491589 1787345 7824587 1136108 11184663
-## Nov 2014        4493694 1750008 7985415 1117149 11498636
-## Dec 2014        4495757 1629976 8181761 1055661 11988744
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-##          Point Forecast   Lo 80   Hi 80   Lo 95    Hi 95
-## Jan 2014        4470648 3047867 5856919 2372521  6599183
-## Feb 2014        4473164 2744942 6247038 1961542  7362432
-## Mar 2014        4475630 2605834 6496123 1881942  8049992
-## Apr 2014        4478047 2453785 6701019 1739277  8571411
-## May 2014        4480418 2305525 7041332 1584641  8898043
-## Jun 2014        4482742 2179171 7280571 1482112  9591780
-## Jul 2014        4485020 2053052 7528128 1384115  9978046
-## Aug 2014        4487253 1961057 7587640 1252034 10710083
-## Sep 2014        4489443 1867718 7723870 1180817 10998786
-## Oct 2014        4491589 1752341 7881549 1113189 10988826
-## Nov 2014        4493694 1704397 8079585 1090988 11881788
-## Dec 2014        4495757 1634432 8265720 1010776 12385618
-=======
-=======
->>>>>>> origin/master
-##          Point Forecast   Lo 80   Hi 80     Lo 95    Hi 95
-## Jan 2014        4470648 3061166 5884769 2303141.8  6579572
-## Feb 2014        4473164 2848273 6138822 2095820.5  7254474
-## Mar 2014        4475630 2661334 6454154 1889255.1  7803629
-## Apr 2014        4478047 2443880 6619847 1745379.6  8327238
-## May 2014        4480418 2327040 6815195 1617317.9  8628486
-## Jun 2014        4482742 2133308 7113578 1463961.8  9301669
-## Jul 2014        4485020 2035098 7205570 1423510.8  9567002
-## Aug 2014        4487253 1943200 7402201 1304983.2 10022848
-## Sep 2014        4489443 1824340 7529721 1191141.8 10507485
-## Oct 2014        4491589 1795522 7672482 1108412.1 10731097
-## Nov 2014        4493694 1666034 7743726 1036115.1 10874268
-## Dec 2014        4495757 1617336 8009149  986146.3 11512663
-<<<<<<< HEAD
->>>>>>> origin/master
-=======
->>>>>>> origin/master
->>>>>>> origin/master
->>>>>>> origin/master
+## Jan 2014        4470648 3072415 5865094 2418177  6583315
+## Feb 2014        4473164 2855864 6255725 2110535  7284772
+## Mar 2014        4475630 2677660 6532430 1930749  7968374
+## Apr 2014        4478047 2474176 6815180 1803144  8572385
+## May 2014        4480418 2351943 7072949 1658632  9168188
+## Jun 2014        4482742 2191854 7305600 1548813  9409423
+## Jul 2014        4485020 2108149 7488817 1428827 10233220
+## Aug 2014        4487253 2036235 7756948 1297435 10543639
+## Sep 2014        4489443 1869775 7769875 1192250 10832564
+## Oct 2014        4491589 1815930 7940810 1158986 11437748
+## Nov 2014        4493694 1757076 8048010 1145657 12111835
+## Dec 2014        4495757 1691496 8308945 1031834 12677166
 ```
 
 ```r
 plot(Model_holt_4)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-25-2.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-23-2.png)<!-- -->
 
 ```r
 # level and slope can be plotted individually for each model. 
 plot(Model_holt_1$model$state)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-25-3.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-23-3.png)<!-- -->
 
 ```r
 plot(Model_holt_2$model$state)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-25-4.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-23-4.png)<!-- -->
 
 ```r
 plot(Model_holt_3$model$state)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-25-5.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-23-5.png)<!-- -->
 
 ```r
 plot(Model_holt_4$model$state)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-25-6.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-23-6.png)<!-- -->
 
 ```r
 plot(Model_holt_1, plot.conf=FALSE, ylab="Exports Chulwalar  )", xlab="Year", main="", fcol="white", type="o")
@@ -1707,7 +1363,7 @@ lines(Model_holt_4$mean, col="orange", type="o")
 legend("topleft",lty=1, col=c(1,"purple","blue","red","green","orange"), c("data", "SES","Holts auto", "Exponential", "Additive Damped", "Multiplicative Damped"),pch=1)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-25-7.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-23-7.png)<!-- -->
 
 ## Holt-Winter's seasonal method   
 Holt and Winters have expanded Holt's model further to include the seasonality aspect. The parameter gamma, which is for smoothing the seasonality, was added to achieve this. The values are better than the models without seasonality. This is logical, since the data is strongly influenced by seasonality.  In the following model, none of the parameters are given so that they will be optimised automatically. There are two models: one using an additive error model method and one using a multiplicative error model. The additive model gives slightly better results than the multiplicative model.
@@ -1770,7 +1426,7 @@ summary(Model_hw_1)
 plot(Model_hw_1)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
 
 ```r
 Model_hw_2 <- hw(TotalAsIs ,seasonal="multiplicative",h=12)
@@ -1829,7 +1485,7 @@ summary(Model_hw_2)
 plot(Model_hw_2)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-26-2.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-24-2.png)<!-- -->
 
 ```r
 plot(Model_hw_1, ylab="Exports Chulwalar  ", plot.conf=FALSE, type="o", fcol="white", xlab="Year")
@@ -1840,7 +1496,7 @@ lines(Model_hw_2$mean, type="o", col="green")
 legend("topleft",lty=1, pch=1, col=1:3, c("data","Holt Winters' Additive","Holt Winters' Multiplicative"))
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-26-3.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-24-3.png)<!-- -->
 
 ```r
 # In order to use the results later, they need to be converted into point forcasts.

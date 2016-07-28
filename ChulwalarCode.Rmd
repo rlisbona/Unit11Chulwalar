@@ -9,44 +9,53 @@ output:
 ---
 
 # Introduction
-  The Prime Minister of Chulwalar personally invited aspiring SMU Data Scientist Students "Randy Lisbona" and
-  "Christopher Farrar" to help them out with their forecast data.In understanding his concerns, Randy and Chris
-  were empowered to answer the following questions in supporting the prime minister.
+  The Prime Minister of Chulwalar personally invited aspiring SMU Data Scientist Students Randy Lisbona and
+  Christopher Farrar to analyze and forecast the islands export data for the year 2015.  Randy and Chris were granted access to the islands economic data and chief statistical scientist, in order to answer the following questions.  
   
-  * What is the best model for the export data and how we define the best?
+  1. What is the best model for the export data and how we define the best?
   
-  * Which forecast model is the best fit and how we define it
+  2. Which forecast model is the best fit and how we define it
   
-  * All of the different models we could consider could be useful or good. How do we choose among equally good
+  3. All of the different models we could consider could be useful or good. How do we choose among equally good
    models
 
-# Set Up
-```{r echo=TRUE,printeval=TRUE}
-getwd()
-knitr::opts_knit$set(root.dir = normalizePath("..."))
 
+```{r setup, echo=FALSE, results = "hide", message=FALSE}
+knitr::opts_knit$set(root.dir = normalizePath("..."))
+getwd()
 library(fpp) # for time series forecasting and analysis  This is a minor change can I push it out
 library(forecast) # for some other forecasting models
 library(xtable)
 library(knitr)
+library(xtable)
 ```
 
-# Import the data
-```{r import, echo = FALSE}
+## Analysis steps -Import the data
+  The source files provided by the Chulwalar department of statistical analysis and forecasting were imported into R 3.3.1 for time series analysis,  These files were current as of July 18, 2016, reflecting Chulwalar exports data as of December 2015
+  
+  1. ImportedAsIsDataChulwalar.csv
+  2. ImportedPlanDataChulwalar.csv
+  3. ImportedIndicatorsChulwalar.csv
+  
+```{r import, echo = FALSE, results = "hide"}
 getwd()
 source("./Analysis/ImportChulwalar.R", echo = FALSE, print.eval=FALSE)
 ```
 
-#  Transform data into time series
+##  Transform data into time series
 In order to be able to work with the partial data sets later, these need to be split into individual vectors and converted into times series.
+1. For details on time series conversion please refer to source file "./Analysis/TransformToTimeseries.R"
 
-```{r ExtractAndTransformToTimeSeries, echo = FALSE, eval=TRUE}
+```{r ExtractAndTransformToTimeSeries, echo = FALSE, eval=TRUE, results="hide"}
 source("./Analysis/TransformToTimeSeries.R", echo = FALSE,print.eval=FALSE)
 ```
 # Basic data analysis
 
 ## Correlation between As Is and Plan Data
-Test the correlation between As Is and Plan data in order to test how exact the planning is. Correlation is a measure of linear relationship between two variables. 
+Initial analysis involved checking correlation between As Is and Plan data in order to test how exact the planning is. 
+  1. Correlation is a measure of linear relationship between two variables. 
+  2. The Chulwalar department of statistical analysis and forecasting has done a commendable job in developing the Plan Data!
+  
 ```{r echo=FALSE,eval=TRUE, fig.height=4, fig.width=4}
 df <- data.frame(type =c("TotalAsIs-TotalPlan"),corr=cor(TotalAsIs, TotalPlan ), stringsAsFactors = FALSE)
 df<- rbind(df,data.frame(type=c("EfakAsIs-EfakPlan"),corr=cor(EfakAsIs , EfakPlan), stringsAsFactors = FALSE))
@@ -66,10 +75,14 @@ kable(df,type ="html",caption = "Correlation between As and Plan data",align=c("
 
 The results show a very high planning accuracy. 
 
-```{r}
+```{r linearmodel, echo=FALSE }
 TotalAsIs_lm <- lm(TotalAsIs ~ TotalPlan , data = TotalAsIs)
 summary(TotalAsIs_lm)
+```
 
+
+
+```{r timeseriesLinearModel, echo=FALSE}
 TotalAsIs_tslm <- tslm(TotalAsIs ~ TotalPlan )
 summary(TotalAsIs_tslm)
 ```
@@ -84,13 +97,13 @@ WugeAsIs_stl <- stl(WugeAsIs, s.window=5)
 TotalEtelAsIs_stl <- stl(TotalEtelAsIs, s.window=5)
 BlueEtelAsIs_stl <- stl(BlueEtelAsIs , s.window=5)
 RedEtelAsIs_stl <- stl(RedEtelAsIs , s.window=5)
-library("xtable")
+
 
 ```
 
 Thus the individual time series can be shown graphically and tabularly. The trend of the total exports is almost linear. A relatively uniform seaonality can be seen.
 
-```{r}
+```{r echo= FALSE}
 # Why doesnt mfrow work in this section but it does in next?
 par(mfrow=c(3,2))
 plot(TotalAsIs_stl, col="black", main="TotalAsIs_stl")
@@ -103,7 +116,7 @@ plot(RedEtelAsIs_stl, col="black", main="RedEtelAsIs_stl")
 
 It is interesting to note that the almost linear trend is not seen in the individual segments. The individual trends run partially in opposite directions in the middle of the time scale, which causes the linear trend in the total As Is data.
 
-```{r}
+```{r echo= FALSE}
 par(mfrow=c(3,2))
 plot(TotalAsIs_stl$time.series[,"trend"], col="black")
 plot(EfakAsIs_stl$time.series[,"trend"], col="red")
@@ -116,7 +129,7 @@ plot(RedEtelAsIs_stl$time.series[,"trend"], col="purple")
 ## Modify seasonal component to a monthly base
 The modification of the seasonlity component can also be changed into a monthly view. It only makes sense to do this if the seasonality componant as the trend looks almost identical and the remainder is then randomly spread.
 
-```{r}
+```{r echo= FALSE}
 monthplot(TotalAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
 monthplot(EfakAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
 monthplot(WugeAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
@@ -147,7 +160,7 @@ The indicators are as follows:
 The indicators will be converted into individual  vectors and subsequently converted into time series. The correlation of the indicators will then be tested against the As Is exports for Chulwalar. 
 
 # Monthly Change in Export Price Index (CEPI)
-```{r}
+```{r echo= FALSE}
 CEPIVector <- c(ImportedIndicators[2:13,2],ImportedIndicators[2:13,3],ImportedIndicators[2:13,4],ImportedIndicators[2:13,5],ImportedIndicators[2:13,6],ImportedIndicators[2:13,7])
 CEPI <- ts(CEPIVector , start=c(2008,1), end=c(2013,12), frequency=12)
 plot(CEPI, main="CEPI")
