@@ -87,8 +87,8 @@ TotalAsIs_tslm <- tslm(TotalAsIs ~ TotalPlan )
 summary(TotalAsIs_tslm)
 ```
 
-## Use STL function for decomposition
-The time series can be analysed using the stl function in order to seperate the trend, seasonality and remainder (remaining coincidential) components from one another.
+## STL function (Seasonal Decomposition of Time Series by LOESS
+  r stl() was used to seperate the trend, seasonality and remainder (remaining coincidential) components from one another.
 
 ```{r echo= FALSE}
 TotalAsIs_stl <- stl(TotalAsIs, s.window=5)
@@ -101,11 +101,13 @@ RedEtelAsIs_stl <- stl(RedEtelAsIs , s.window=5)
 
 ```
 
-Thus the individual time series can be shown graphically and tabularly. The trend of the total exports is almost linear. A relatively uniform seaonality can be seen.
+  1. The individual time series can be shown graphically and tabularly. 
+  2. The trend of the total exports is almost linear. 
+  3. A relatively uniform seaonality can be seen.
 
 ```{r echo= FALSE}
 # Why doesnt mfrow work in this section but it does in next?
-par(mfrow=c(3,2))
+par(mfrow=c(6,1))
 plot(TotalAsIs_stl, col="black", main="TotalAsIs_stl")
 plot(EfakAsIs_stl, col="black", main="EfakAsIs_stl")
 plot(WugeAsIs_stl, col="black", main="WugeAsIs_stl")

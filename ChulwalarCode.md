@@ -98,12 +98,14 @@ The results show a very high planning accuracy.
 ## F-statistic: 376.9 on 1 and 70 DF,  p-value: < 2.2e-16
 ```
 
-## Use STL function for decomposition
-The time series can be analysed using the stl function in order to seperate the trend, seasonality and remainder (remaining coincidential) components from one another.
+## STL function (Seasonal Decomposition of Time Series by LOESS
+  r stl() was used to seperate the trend, seasonality and remainder (remaining coincidential) components from one another.
 
 
 
-Thus the individual time series can be shown graphically and tabularly. The trend of the total exports is almost linear. A relatively uniform seaonality can be seen.
+  1. The individual time series can be shown graphically and tabularly. 
+  2. The trend of the total exports is almost linear. 
+  3. A relatively uniform seaonality can be seen.
 
 ![](ChulwalarCode_files/figure-html/unnamed-chunk-3-1.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-3-2.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-3-3.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-3-4.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-3-5.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-3-6.png)<!-- -->
 
@@ -1186,18 +1188,18 @@ summary(Model_holt_2)
 ## 
 ## Forecasts:
 ##          Point Forecast   Lo 80   Hi 80   Lo 95    Hi 95
-## Jan 2014        4488281 3083683 5882161 2331396  6645640
-## Feb 2014        4502175 2850334 6283761 2158654  7331126
-## Mar 2014        4516113 2674462 6609629 1966518  7972824
-## Apr 2014        4530094 2549467 6826848 1807503  8552463
-## May 2014        4544118 2455710 7058163 1661041  9050361
-## Jun 2014        4558186 2272417 7342938 1573436  9669375
-## Jul 2014        4572297 2164966 7492909 1457528  9984580
-## Aug 2014        4586452 2088414 7642965 1375226 10374025
-## Sep 2014        4600650 1946786 7943203 1290228 10697234
-## Oct 2014        4614893 1867414 8211320 1188057 11351349
-## Nov 2014        4629180 1768420 8243713 1111472 11836620
-## Dec 2014        4643510 1712185 8458256 1070428 12156199
+## Jan 2014        4488281 3072183 5896528 2363011  6620301
+## Feb 2014        4502175 2843347 6164338 2057314  7252675
+## Mar 2014        4516113 2651125 6566360 1936754  7771100
+## Apr 2014        4530094 2497695 6805454 1802339  8538620
+## May 2014        4544118 2335331 6935027 1608506  8975449
+## Jun 2014        4558186 2202519 7278555 1546855  9513559
+## Jul 2014        4572297 2137216 7495217 1471915  9875331
+## Aug 2014        4586452 1989900 7585307 1362992 10713166
+## Sep 2014        4600650 1905119 7923962 1284064 10943052
+## Oct 2014        4614893 1866571 8099887 1213573 11532929
+## Nov 2014        4629180 1780487 7986374 1129145 12000064
+## Dec 2014        4643510 1728364 8253183 1086861 12270974
 ```
 
 ```r
@@ -1303,18 +1305,18 @@ summary(Model_holt_4)
 ## 
 ## Forecasts:
 ##          Point Forecast   Lo 80   Hi 80   Lo 95    Hi 95
-## Jan 2014        4470648 3072415 5865094 2418177  6583315
-## Feb 2014        4473164 2855864 6255725 2110535  7284772
-## Mar 2014        4475630 2677660 6532430 1930749  7968374
-## Apr 2014        4478047 2474176 6815180 1803144  8572385
-## May 2014        4480418 2351943 7072949 1658632  9168188
-## Jun 2014        4482742 2191854 7305600 1548813  9409423
-## Jul 2014        4485020 2108149 7488817 1428827 10233220
-## Aug 2014        4487253 2036235 7756948 1297435 10543639
-## Sep 2014        4489443 1869775 7769875 1192250 10832564
-## Oct 2014        4491589 1815930 7940810 1158986 11437748
-## Nov 2014        4493694 1757076 8048010 1145657 12111835
-## Dec 2014        4495757 1691496 8308945 1031834 12677166
+## Jan 2014        4470648 3079090 5885114 2328820  6677402
+## Feb 2014        4473164 2892998 6281169 2216733  7473138
+## Mar 2014        4475630 2637147 6558000 1953557  7842802
+## Apr 2014        4478047 2518468 6762440 1808920  8495764
+## May 2014        4480418 2349238 6960953 1647656  9010814
+## Jun 2014        4482742 2228099 7164623 1576719  9383361
+## Jul 2014        4485020 2095582 7340684 1441144 10030303
+## Aug 2014        4487253 2062972 7491329 1339645 10248505
+## Sep 2014        4489443 1919935 7697973 1253621 10814839
+## Oct 2014        4491589 1792152 7849751 1162093 11371396
+## Nov 2014        4493694 1743187 8039539 1062192 11769970
+## Dec 2014        4495757 1671484 8123265 1017554 11729500
 ```
 
 ```r
