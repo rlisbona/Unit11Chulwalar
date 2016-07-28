@@ -1,8 +1,8 @@
-library("data.table")
-library(fpp) # for time series forecasting and analysis
-library(forecast)
-library("plyr")
-library("dplyr")
+library("data.table",quietly=TRUE)
+library(fpp,quietly=TRUE) # for time series forecasting and analysis
+library(forecast,quietly=TRUE)
+library("plyr",quietly=TRUE)
+library("dplyr",quietly=TRUE)
 
 GetForecastStats <- function(forecastname) {
   methodname <- deparse(substitute(forecastname))

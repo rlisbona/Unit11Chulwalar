@@ -20,7 +20,7 @@ output:
    models
 
 
-```{r setup, echo=FALSE, results = "hide", message=FALSE}
+```{r setup, echo=FALSE, results = "hide", message=FALSE, warning=FALSE}
 knitr::opts_knit$set(root.dir = normalizePath("..."))
 getwd()
 library(fpp) # for time series forecasting and analysis  This is a minor change can I push it out
@@ -37,7 +37,7 @@ library(xtable)
   2. ImportedPlanDataChulwalar.csv
   3. ImportedIndicatorsChulwalar.csv
   
-```{r import, echo = FALSE, results = "hide"}
+```{r import, echo = FALSE, results = "hide", message=FALSE, warning=FALSE}
 getwd()
 source("./Analysis/ImportChulwalar.R", echo = FALSE, print.eval=FALSE)
 ```
@@ -46,7 +46,7 @@ source("./Analysis/ImportChulwalar.R", echo = FALSE, print.eval=FALSE)
 In order to be able to work with the partial data sets later, these need to be split into individual vectors and converted into times series.
 1. For details on time series conversion please refer to source file "./Analysis/TransformToTimeseries.R"
 
-```{r ExtractAndTransformToTimeSeries, echo = FALSE, eval=TRUE, results="hide"}
+```{r ExtractAndTransformToTimeSeries, echo = FALSE, eval=TRUE, results="hide", message=FALSE, warning=FALSE}
 source("./Analysis/TransformToTimeSeries.R", echo = FALSE,print.eval=FALSE)
 ```
 # Basic data analysis
@@ -83,7 +83,7 @@ summary(TotalAsIs_lm)
 
 
 ```{r timeseriesLinearModel, echo=FALSE}
-TotalAsIs_tslm <- tslm(TotalAsIs ~ TotalPlan )
+TotalAsIs_tslm <- tslm(TotalAsIs ~ TotalPlan, data = TotalAsIs)
 summary(TotalAsIs_tslm)
 ```
 
@@ -91,6 +91,7 @@ summary(TotalAsIs_tslm)
   r stl() was used to seperate the trend, seasonality and remainder (remaining coincidential) components from one another.
 
 ```{r echo= FALSE}
+par(mfrow=c(3,2))
 TotalAsIs_stl <- stl(TotalAsIs, s.window=5)
 EfakAsIs_stl <- stl(EfakAsIs , s.window=5)
 WugeAsIs_stl <- stl(WugeAsIs, s.window=5)
@@ -103,7 +104,7 @@ RedEtelAsIs_stl <- stl(RedEtelAsIs , s.window=5)
 
   1. The individual time series can be shown graphically and tabularly. 
   2. The trend of the total exports is almost linear. 
-  3. A relatively uniform seaonality can be seen.
+  3. A relatively uniform seasonality can be seen.
 
 ```{r echo= FALSE}
 # Why doesnt mfrow work in this section but it does in next?
@@ -129,15 +130,16 @@ plot(RedEtelAsIs_stl$time.series[,"trend"], col="purple")
 ```
 
 ## Modify seasonal component to a monthly base
-The modification of the seasonlity component can also be changed into a monthly view. It only makes sense to do this if the seasonality componant as the trend looks almost identical and the remainder is then randomly spread.
+The modification of the seasonality component can also be changed into a monthly view. It only makes sense to do this if the seasonality componant as the trend looks almost identical and the remainder is then randomly spread.
 
 ```{r echo= FALSE}
-monthplot(TotalAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
-monthplot(EfakAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
-monthplot(WugeAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
-monthplot(TotalEtelAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
-monthplot(BlueEtelAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
-monthplot(RedEtelAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
+par(mfrow=c(3,2))
+monthplot(TotalAsIs_stl$time.series[,"seasonal"], main="TotalAsIs_stl", ylab="Seasonal")
+monthplot(EfakAsIs_stl$time.series[,"seasonal"], main="EfakAsIs_stl", ylab="Seasonal")
+monthplot(WugeAsIs_stl$time.series[,"seasonal"], main="WugeAsIs_stl", ylab="Seasonal")
+monthplot(TotalEtelAsIs_stl$time.series[,"seasonal"], main="TotalEtelAsIs_stl", ylab="Seasonal")
+monthplot(BlueEtelAsIs_stl$time.series[,"seasonal"], main="BlueEtelAsIs_stl", ylab="Seasonal")
+monthplot(RedEtelAsIs_stl$time.series[,"seasonal"], main="RedEtelAsIs_stl", ylab="Seasonal")
 ```
 
 ## Correlation with external indicators
@@ -159,7 +161,7 @@ The indicators are as follows:
 *	Proposed spending for National Holidays
 * Influence of National Holiday
 
-The indicators will be converted into individual  vectors and subsequently converted into time series. The correlation of the indicators will then be tested against the As Is exports for Chulwalar. 
+The indicators will be converted into individual vectors and subsequently converted into time series. The correlation of the indicators will then be tested against the As Is exports for Chulwalar. 
 
 # Monthly Change in Export Price Index (CEPI)
 ```{r echo= FALSE}
@@ -176,7 +178,7 @@ cor(RedEtelAsIs , CEPI)
 ```
 
 # Monthly Satisfaction Index (SI) government based data
-```{r echo= FALSE}
+```{r echo= TRUE}
 SIGovVector <- c(ImportedIndicators[16:27,2],ImportedIndicators[16:27,3],ImportedIndicators[16:27,4],ImportedIndicators[16:27,5],ImportedIndicators[16:27,6],ImportedIndicators[16:27,7])
 SIGov <- ts(SIGovVector , start=c(2008,1), end=c(2013,12), frequency=12)
 plot(SIGov, main="SIGov")
@@ -190,7 +192,7 @@ cor(RedEtelAsIs , SIGov)
 ```
 
 # Average monthly temperatures in Chulwalar
-```{r echo= FALSE}
+```{r echo= TRUE}
 TemperatureVector <- c(ImportedIndicators[30:41,2],ImportedIndicators[30:41,3],ImportedIndicators[30:41,4],ImportedIndicators[30:41,5],ImportedIndicators[30:41,6],ImportedIndicators[30:41,7])
 Temperature <- ts(TemperatureVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(Temperature, main="Temperature")
@@ -204,7 +206,7 @@ cor(RedEtelAsIs , Temperature)
 ```
 
 # Monthly births in Chulwalar 
-```{r echo= FALSE}
+```{r echo= TRUE}
 BirthsVector <- c(ImportedIndicators[44:55,2],ImportedIndicators[44:55,3],ImportedIndicators[44:55,4],ImportedIndicators[44:55,5],ImportedIndicators[44:55,6],ImportedIndicators[44:55,7])
 Births <- ts(BirthsVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(Births, main="Births")
@@ -218,7 +220,7 @@ cor(RedEtelAsIs , Births)
 ```
 
 # Monthly Satisfaction Index (SI) external index 
-```{r echo= FALSE}
+```{r echo= TRUE}
 SIExternVector <- c(ImportedIndicators[58:69,2],ImportedIndicators[58:69,3],ImportedIndicators[58:69,4],ImportedIndicators[58:69,5],ImportedIndicators[58:69,6],ImportedIndicators[58:69,7])
 SIExtern <- ts(SIExternVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(SIExtern, main="SIExtern")
@@ -232,7 +234,7 @@ cor(RedEtelAsIs , SIExtern)
 ```
 
 # Yearly exports from Urbano
-```{r echo= FALSE}
+```{r echo= TRUE}
 UrbanoExportsVector <- c(ImportedIndicators[72:83,2],ImportedIndicators[72:83,3],ImportedIndicators[72:83,4],ImportedIndicators[72:83,5],ImportedIndicators[72:83,6],ImportedIndicators[72:83,7])
 UrbanoExports <- ts(UrbanoExportsVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(UrbanoExports, main="UrbanoExports")
@@ -246,7 +248,7 @@ cor(RedEtelAsIs , UrbanoExports)
 ```
 
 # Yearly number of Globalisation Party members in Chulwalar
-```{r echo= FALSE}
+```{r echo= TRUE}
 GlobalisationPartyMembersVector <- c(ImportedIndicators[86:97,2],ImportedIndicators[86:97,3],ImportedIndicators[86:97,4],ImportedIndicators[86:97,5],ImportedIndicators[86:97,6],ImportedIndicators[86:97,7])
 GlobalisationPartyMembers <- ts(GlobalisationPartyMembersVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(GlobalisationPartyMembers, main="GlobalisationPartyMembers")
@@ -260,7 +262,7 @@ cor(RedEtelAsIs , GlobalisationPartyMembers)
 ```
 
 # Monthly Average Export Price Index for Chulwalar
-```{r echo= FALSE}
+```{r echo= TRUE}
 AEPIVector <- c(ImportedIndicators[100:111,2],ImportedIndicators[100:111,3],ImportedIndicators[100:111,4],ImportedIndicators[100:111,5],ImportedIndicators[100:111,6],ImportedIndicators[100:111,7])
 AEPI <- ts(AEPIVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(AEPI, main="AEPI")
@@ -274,7 +276,7 @@ cor(RedEtelAsIs , AEPI)
 ```
 
 # Monthly Producer Price Index (PPI) for Etel in Chulwalar
-```{r}
+```{r echo= TRUE}
 PPIEtelVector <- c(ImportedIndicators[114:125,2],ImportedIndicators[114:125,3],ImportedIndicators[114:125,4],ImportedIndicators[114:125,5],ImportedIndicators[114:125,6],ImportedIndicators[114:125,7])
 PPIEtel <- ts(PPIEtelVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(PPIEtel, main="PPIEtel")
@@ -288,7 +290,7 @@ cor(RedEtelAsIs , PPIEtel)
 ```
 
 # National Holidays
-```{r}
+```{r echo= TRUE}
 NationalHolidaysVector <- c(ImportedIndicators[170:181,2],ImportedIndicators[170:181,3],ImportedIndicators[170:181,4],ImportedIndicators[170:181,5],ImportedIndicators[170:181,6],ImportedIndicators[170:181,7])
 NationalHolidays <- ts(NationalHolidaysVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(NationalHolidays, main="NationalHolidays")
@@ -302,7 +304,7 @@ cor(RedEtelAsIs , NationalHolidays)
 ```
 
 # Chulwalar Index (Total value of all companies in Chulwalar)
-```{r}
+```{r echo= TRUE}
 ChulwalarIndexVector <- c(ImportedIndicators[128:139,2],ImportedIndicators[128:139,3],ImportedIndicators[128:139,4],ImportedIndicators[128:139,5],ImportedIndicators[128:139,6],ImportedIndicators[128:139,7])
 ChulwalarIndex <- ts(ChulwalarIndexVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(ChulwalarIndex, main="ChulwalarIndex")
@@ -316,7 +318,7 @@ cor(RedEtelAsIs , ChulwalarIndex)
 ```
 
 # Monthly Inflation rate in Chulwalar 
-```{r}
+```{r echo= TRUE}
 InflationVector <- c(ImportedIndicators[142:153,2],ImportedIndicators[142:153,3],ImportedIndicators[142:153,4],ImportedIndicators[142:153,5],ImportedIndicators[142:153,6],ImportedIndicators[142:153,7])
 Inflation <- ts(InflationVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(Inflation, main="Inflation")
@@ -330,7 +332,7 @@ cor(RedEtelAsIs , Inflation)
 ```
 
 # Proposed spending for Independence day presents
-```{r}
+```{r echo= TRUE}
 IndependenceDayPresentsVector <- c(ImportedIndicators[156:167,2],ImportedIndicators[156:167,3],ImportedIndicators[156:167,4],ImportedIndicators[156:167,5],ImportedIndicators[156:167,6],ImportedIndicators[156:167,7])
 IndependenceDayPresents <- ts(IndependenceDayPresentsVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(IndependenceDayPresents, main="IndependenceDayPresents")
@@ -345,7 +347,7 @@ cor(RedEtelAsIs , IndependenceDayPresents)
 
 # Influence of National Holidays :
 This indicator is an experiment where the influence of National Holidays is extended into the months leading up to the holiday. However later tests show that this indicator is no better for forecasting than the orignial National Holidays indicator.  
-```{r}
+```{r echo= TRUE}
 InfluenceNationalHolidaysVector <- c(ImportedIndicators[184:195,2],ImportedIndicators[184:195,3],ImportedIndicators[184:195,4],ImportedIndicators[184:195,5],ImportedIndicators[184:195,6],ImportedIndicators[184:195,7])
 InfluenceNationalHolidays <- ts(InfluenceNationalHolidaysVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(InfluenceNationalHolidays, main="InfluenceNationalHolidays")
@@ -359,7 +361,7 @@ cor(RedEtelAsIs , InfluenceNationalHolidays)
 ```
 
 # Check that the data import has worked
-```{r}
+```{r echo= TRUE}
 str(CEPIVector)
 str(SIGovVector)  
 str(TemperatureVector) 
@@ -381,7 +383,7 @@ Exponential Smoothing uses past values to calculate a forecast. The strength wit
 The Akaike's Information Criterion(AIC/AICc) or the Bayesian Information Criterion (BIC) should be at minimum.
 
 ## Simple expontential smoothing    
-```{r}
+```{r echo= TRUE}
 Model_ses <- ses(TotalAsIs, h=12)
 summary(Model_ses)
 OverallSummary <- GetForecastStats(Model_ses)
@@ -394,7 +396,7 @@ legend("topleft",lty=1, col=c(1,"green"), c("data", expression(alpha == 0.671)),
 ## Holt's linear trend method   
 Holt added to the model in order to forecast using trends as well. For this it is necessary to add a beta, which determines the trend. If neither alpha nor beta is stated, both parameters will be optimised using ets(). The trend is exponential if the intercepts(level) and the gradient (slope) are multiplied with eachother. The values are worse. As the Beta was very low in the optimisation, the forecast is very similar to the ses() model. 
 
-```{r}
+```{r echo= TRUE}
 Model_holt_1 <- holt(TotalAsIs,h=12)
 summary(Model_holt_1)
 plot(Model_holt_1)
@@ -407,7 +409,7 @@ plot(Model_holt_2)
 
 ## Dampened trends
 As such simple trends tend to forecast the future to positively, we have added a dampener. This also works for exponential trends. We also plot the level and slope individually for each model.
-```{r}
+```{r echo= TRUE}
 Model_holt_3 <- holt(TotalAsIs, damped=TRUE,h=12)
 summary(Model_holt_3)
 plot(Model_holt_3)
@@ -439,7 +441,7 @@ legend("topleft",lty=1, col=c(1,"purple","blue","red","green","orange"), c("data
 ## Holt-Winter's seasonal method   
 Holt and Winters have expanded Holt's model further to include the seasonality aspect. The parameter gamma, which is for smoothing the seasonality, was added to achieve this. The values are better than the models without seasonality. This is logical, since the data is strongly influenced by seasonality.  In the following model, none of the parameters are given so that they will be optimised automatically. There are two models: one using an additive error model method and one using a multiplicative error model. The additive model gives slightly better results than the multiplicative model.
 
-```{r}
+```{r echo= TRUE}
 Model_hw_1 <- hw(TotalAsIs ,seasonal="additive",h=12)
 summary(Model_hw_1)
 plot(Model_hw_1)
@@ -470,6 +472,7 @@ Model_hw_2_PointForecast
 
 ## Conclusion
 
+<<<<<<< HEAD
 - Based on the review of the data, and the type of data being explored: Error, Trend, Seasonal algorithm "ETS AAA" is the
   preferred method over autoregressive integrated moving average "ARIMA". ARIMA is based on assumptions that residuals are
   uncorrelated and normally distributed. If this doesn't occur, then forecast intervals are incorrect. "ETS AAA" doesn't
@@ -492,6 +495,15 @@ Model_hw_2_PointForecast
   potential error is the one chosen. The model that produces an accurate forecast is a model that contains a low U1
   statistic. Important to consider Mean error values as well as taking into account a full range of values in a statisticl
   output 
+=======
+Based on the review of the data, and the type of data being explored: Error, Trend, Seasonal algorithm "ETS AAA" is the preferred method over autoregressive integrated moving average "ARIMA". ARIMA is based on assumptions that residuals are uncorrelated and normally distributed. If this doesn't occur, then forecast intervals are incorrect. "ETS AAA" doesn't face the same limitations of looking at correlations in data, linearity and stationarity. Also ETS provides an automatic way of selecting the best method. ETS MASE of .55 provides a better value of greater than 0 but less than one.
+
+How we defined best fit is, the model that proves the best prediction of error, robust to outliers, good indicator of central tendency and provides the best measure of goodness is the best fit.
+
+When reviewing the different forecast model that was determined, and based on review of the different models, Holt's-Winters multiplicative method was chosen among the others. Mean absolute scaled error was  ".52" and the mean error was "17434.11".  The seasonal component is expressed in relative terms (percentages) and the series is seasonally adjusted by dividing through by the seasonal component." Also when seasonal variations are changing proportional to the level of series multiplicative method is preferred. The best fit for forecast is the model that provides the best time series review for your given data and the predication of bias and error in the data.   
+
+All of the models are equally good when considering the specific data. Based on observation and analysis of the data, any model that provides trend analyses, seasonal interpretation (additive/multiplicative) and greater interpretation of potential error is the one chosen. The model that produces the more accurate forecast with a low U1 statistic  between 0 and 1 indicate greater forecasting accuracy while taking into account potential forecasting bias that is captured by Mean Error "ME" 
+>>>>>>> origin/master
 
 ## Recommendation to Chulwalr Prime Minister:
 When reviewing the different plots between efak, Wuge, and Etel. The primary export recommended would be Efak. It shows a strong linear progression from 2008 and is resistant to large swings in seasonal, export, and social holidays.
