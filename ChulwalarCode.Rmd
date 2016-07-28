@@ -473,22 +473,24 @@ Model_hw_2_PointForecast
 ## Conclusion
 
 
-* Based on the review of the data, and the type of data being explored: Error, Trend, Seasonal algorithm "ETS AAA" is the
-  preferred method over autoregressive integrated moving average "ARIMA". ARIMA is based on assumptions that residuals are
-  uncorrelated and normally distributed. If this doesn't occur, then forecast intervals are incorrect. "ETS AAA" doesn't
-  face the same limitations of looking at correlations in data, linearity and stationarity. Also ETS provides an automatic
-  way of selecting the best method. ETS MASE of .55 provides a better value of greater than 0 but less than one.
+* The ETS model was prefered over the ARIMA Model. In one sample ETS model, the Mean Absolute Squared Error of.55 was
+  prefered 15 differnt ARIMA models with values greater than 1.0. ETS ME of 21,588 was prefered over wide ranging values
+  of -18,789 to 178,628. Based on the review of the data, and the type of data being explored: Error, Trend, Seasonal
+  algorithm "ETS AAA" is the  preferred method over autoregressive integrated moving average "ARIMA". ARIMA is based on
+  assumptions that residuals are uncorrelated and normally distributed. If this doesn't occur, then forecast intervals are
+  incorrect. "ETS AAA" doesn't face the same limitations of looking at correlations in data, linearity and stationarity.
+  Also ETS provides an automatic way of selecting the best method. ETS MASE of .55 provides a better value of greater than
+  0 but less than one.
 
-* When reviewing the model to define the best fit is, the model that proves the best prediction of error, robust to
+* Reviewing the different model, to define the best fit is the model that proves the best prediction of error, robust to
   outliers, good indicator of central tendency and provides the best measure of goodness is the best fit.
 
-* When reviewing the different forecast model that was determined, and based on review of the different models,
-  Holt's-Winters multiplicative method was chosen among the others. Mean absolute scaled error was  ".52", the mean error
-  was "17434.11", and the root mean square error provided the best indicator for accurate forecasting.  Taking into
-  account seasonal fluctuations in the data was important during this case study. Lastly, when comparing "total-as-is"
-  plan to the "total-plan" using linear regression model and time series models provided a better understanging of
-  regression correlation and accuracy. The best fit for forecast is the model that provides the best time series review
-  for your given data and the predication of bias and error in the data.   
+* Holt's-Winters multiplicative method of MASE ".52", ME 17434.1, and RMSE  241,685 was prefered over other forecast
+  models. When reviewing the different forecast models the root mean square error provided the best indicator for accurate
+  forecasting.Taking into account seasonal fluctuations in the data was important during this case study. Lastly, when
+  comparing "total-as-is" plan to the "total-plan" using linear regression model and time series models provided a better
+  understanging of regression correlation and accuracy. The best fit for forecast is the model that provides the best time
+  series review for your given data and the predication of bias and error in the data.   
 
 * All of the models are equally good when considering the specific data. Based on observation and analysis of the data,
   any model that provides trend analyses, seasonal interpretation (additive/multiplicative) and greater interpretation of
