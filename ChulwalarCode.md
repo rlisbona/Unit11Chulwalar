@@ -2,7 +2,17 @@
 Randy Lisbona, Christopher Farrar  
 July 27, 2016  
 
-Introduction: The Prime Minister of Chulwar personally invited aspiring SMU Data Scientist Students "Randy Lisbona" and "Christopher Farrar" to help them out with their forecast data. 
+# Introduction
+  The Prime Minister of Chulwalar personally invited aspiring SMU Data Scientist Students "Randy Lisbona" and
+  "Christopher Farrar" to help them out with their forecast data.In understanding his concerns, Randy and Chris
+  were empowered to answer the following questions in supporting the prime minister.
+  
+  * What is the best model for the export data and how we define the best?
+  
+  * Which forecast model is the best fit and how we define it
+  
+  * All of the different models we could consider could be useful or good. How do we choose among equally good
+   models
 
 # Set Up
 
@@ -11,7 +21,7 @@ getwd()
 ```
 
 ```
-## [1] "C:/Users/anobs/Documents/GitHub/Unit11CaseStudyChulwalhar"
+## [1] "C:/Users/Chris/Documents/GitHub/Unit11Chulwalar"
 ```
 
 ```r
@@ -70,7 +80,7 @@ library(forecast) # for some other forecasting models
 # Import the data
 
 ```
-## [1] "C:/Users/anobs/Documents/GitHub/Unit11CaseStudyChulwalhar"
+## [1] "C:/Users/Chris/Documents/GitHub/Unit11Chulwalar"
 ```
 
 ```
@@ -1466,18 +1476,18 @@ summary(Model_holt_2)
 ## 
 ## Forecasts:
 ##          Point Forecast   Lo 80   Hi 80   Lo 95    Hi 95
-## Jan 2014        4488281 3126249 5906069 2400641  6608052
-## Feb 2014        4502175 2866081 6242385 2186182  7306985
-## Mar 2014        4516113 2703993 6518923 1935319  7946477
-## Apr 2014        4530094 2538047 6818647 1776758  8541301
-## May 2014        4544118 2376846 7072848 1645204  9001969
-## Jun 2014        4558186 2270134 7362586 1589235  9538612
-## Jul 2014        4572297 2175732 7573243 1462914 10143175
-## Aug 2014        4586452 2061464 7803531 1353576 10672748
-## Sep 2014        4600650 1990753 8036623 1287687 11072903
-## Oct 2014        4614893 1908284 8143518 1206751 11427050
-## Nov 2014        4629180 1846569 8284826 1143686 12101453
-## Dec 2014        4643510 1769460 8530828 1117587 12285812
+## Jan 2014        4488281 3060471 5903654 2323887  6624581
+## Feb 2014        4502175 2851883 6185583 2139737  7303804
+## Mar 2014        4516113 2644797 6501809 1905081  7841880
+## Apr 2014        4530094 2500869 6836338 1824345  8496679
+## May 2014        4544118 2374932 7104656 1691885  9056553
+## Jun 2014        4558186 2274687 7218532 1566098  9486479
+## Jul 2014        4572297 2162669 7390353 1463677  9817281
+## Aug 2014        4586452 2079471 7522613 1410278 10240106
+## Sep 2014        4600650 2003849 7639678 1318852 10564703
+## Oct 2014        4614893 1910314 7842706 1243044 11224937
+## Nov 2014        4629180 1806233 8098275 1150033 11699546
+## Dec 2014        4643510 1747147 8292833 1089239 12239483
 ```
 
 ```r
@@ -1582,19 +1592,19 @@ summary(Model_holt_4)
 ## Training set 0.0254941
 ## 
 ## Forecasts:
-##          Point Forecast   Lo 80   Hi 80   Lo 95    Hi 95
-## Jan 2014        4470648 3011535 5864401 2276161  6537932
-## Feb 2014        4473164 2781140 6217125 2122872  7323124
-## Mar 2014        4475630 2578972 6418472 1882420  7707497
-## Apr 2014        4478047 2405218 6725515 1697924  8274744
-## May 2014        4480418 2272539 6942891 1583894  8877497
-## Jun 2014        4482742 2147979 7123432 1472424  9382146
-## Jul 2014        4485020 2023460 7381976 1331504  9727460
-## Aug 2014        4487253 1961384 7548224 1277215 10340618
-## Sep 2014        4489443 1837999 7662537 1171968 10454478
-## Oct 2014        4491589 1751060 7897492 1119408 10906862
-## Nov 2014        4493694 1692621 7985836 1078188 11387928
-## Dec 2014        4495757 1572146 8122911 1015012 11692515
+##          Point Forecast   Lo 80   Hi 80     Lo 95    Hi 95
+## Jan 2014        4470648 3061166 5884769 2303141.8  6579572
+## Feb 2014        4473164 2848273 6138822 2095820.5  7254474
+## Mar 2014        4475630 2661334 6454154 1889255.1  7803629
+## Apr 2014        4478047 2443880 6619847 1745379.6  8327238
+## May 2014        4480418 2327040 6815195 1617317.9  8628486
+## Jun 2014        4482742 2133308 7113578 1463961.8  9301669
+## Jul 2014        4485020 2035098 7205570 1423510.8  9567002
+## Aug 2014        4487253 1943200 7402201 1304983.2 10022848
+## Sep 2014        4489443 1824340 7529721 1191141.8 10507485
+## Oct 2014        4491589 1795522 7672482 1108412.1 10731097
+## Nov 2014        4493694 1666034 7743726 1036115.1 10874268
+## Dec 2014        4495757 1617336 8009149  986146.3 11512663
 ```
 
 ```r
@@ -1811,8 +1821,15 @@ Model_hw_2_PointForecast
 #write.csv(Model_hw_2_PointForecast,file='Model_hw_2_PointForecast.csv')
 ```
 
-## Stop at section 7.1.3. These are advanced models not discussed in class. 
+## Conclusion
 
-## Use accuracy measurements to determine which method is best. 
+Based on the review of the data, and the type of data being explored: Error, Trend, Seasonal algorithm "ETS AAA" is the preferred method over autoregressive integrated moving average "ARIMA". ARIMA is based on assumptions that residuals are uncorrelated and normally distributed. If this doesn't occur, then forecast intervals are incorrect. "ETS AAA" doesn't face the same limitations of looking at correlations in data, linearity and stationarity. Also ETS provides an automatic way of selecting the best method. ETS MASE of .55 provides a better value of greater than 0 but less than one.
 
-## Summarize results.
+How we defined best fit is, the model that proves the best prediction of error, robust to outliers, good indicator of central tendency and provides the best measure of goodness is the best fit.
+
+When reviewing the different forecast model that was determined, and based on review of the different models, Holt's-Winters multiplicative method was chosen among the others. Mean absolute scaled error was  ".52" and the mean error was "17434.11".  The seasonal component is expressed in relative terms (percentages) and the series is seasonally adjusted by dividing through by the seasonal component." Also when seasonal variations are changing proportional to the level of series multiplicative method is preferred. The best fit for forecast is the model that provides the best time series review for your given data and the predication of bias and error in the data.   
+
+All of the models are equally good when considering the specific data. Based on observation and analysis of the data, any model that provides trend analyses, seasonal interpretation (additive/multiplicative) and greater interpretation of potential error is the one chosen. The model that produces the more accurate forecast with a low U1 statistic  between 0 and 1 indicate greater forecasting accuracy while taking into account potential forecasting bias that is captured by Mean Error "ME" 
+
+## Recommendation to Chulwalr Prime Minister:
+I need more Cowbell!
