@@ -4,7 +4,8 @@ author: "Randy Lisbona, Christopher Farrar"
 date: "July 27, 2016"
 output:
   html_document:
-    keep_md: true
+    keep_md: yes
+  pdf_document: default
 ---
 
 # Introduction
@@ -20,9 +21,10 @@ output:
    models
 
 # Set Up
-```{r}
-knitr::opts_knit$set(root.dir = normalizePath("../"))
+```{r echo=TRUE,printeval=TRUE}
 getwd()
+knitr::opts_knit$set(root.dir = normalizePath("..."))
+
 library(fpp) # for time series forecasting and analysis
 library(forecast) # for some other forecasting models
 ```

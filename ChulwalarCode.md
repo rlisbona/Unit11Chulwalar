@@ -1,13 +1,22 @@
 # ChulwalarStudy
-Monnie McGee  
-July 16, 2016  
+Randy Lisbona, Christopher Farrar  
+July 27, 2016  
 
-This example roughly follows the code given in the "Forecasting Exports Chulwalar_0.8a.R" file found in the Chulwalar Case Study zip file.
+Introduction: The Prime Minister of Chulwar personally invited aspiring SMU Data Scientist Students "Randy Lisbona" and "Christopher Farrar" to help them out with their forecast data. 
 
 # Set Up
 
 ```r
-knitr::opts_knit$set(root.dir = normalizePath("./Analysis"))
+getwd()
+```
+
+```
+## [1] "C:/Users/anobs/Documents/GitHub/Unit11CaseStudyChulwalhar"
+```
+
+```r
+knitr::opts_knit$set(root.dir = normalizePath("..."))
+
 library(fpp) # for time series forecasting and analysis
 ```
 
@@ -56,29 +65,26 @@ library(fpp) # for time series forecasting and analysis
 
 ```r
 library(forecast) # for some other forecasting models
-## The working directory will need changing depending on the computer and file system!!
-# setwd("./Dropbox/2016 Summer Courses/MSDS 6306/Unit 10/ChulwalarCase") # data files are here.
 ```
 
 # Import the data
 
-```r
-# Not for final draft of case study.
-getwd()
+```
+## [1] "C:/Users/anobs/Documents/GitHub/Unit11CaseStudyChulwalhar"
 ```
 
 ```
-## [1] "C:/Users/anobs/Documents/GitHub/Unit11CaseStudyChulwalhar/Analysis"
-```
-
-```r
-ImportedAsIsData <- read.csv(file="ImportedAsIsDataChulwalar.csv", header = F, sep=";", fill = T) 
-ImportedPlanData <- read.csv(file="ImportedPlanDataChulwalar.csv", header = F, sep=";", fill = T) 
-ImportedIndicators <- read.csv(file="ImportedIndicatorsChulwalar.csv", header = F, sep=";", fill = T)
-str(ImportedAsIsData)
-```
-
-```
+## 
+## > ImportedAsIsData <- read.csv(file = "./analysis/ImportedAsIsDataChulwalar.csv", 
+## +     header = F, sep = ";", fill = T)
+## 
+## > ImportedPlanData <- read.csv(file = "./analysis/ImportedPlanDataChulwalar.csv", 
+## +     header = F, sep = ";", fill = T)
+## 
+## > ImportedIndicators <- read.csv(file = "./analysis/ImportedIndicatorsChulwalar.csv", 
+## +     header = F, sep = ";", fill = T)
+## 
+## > str(ImportedAsIsData)
 ## 'data.frame':	98 obs. of  8 variables:
 ##  $ V1: Factor w/ 22 levels "","Apr","Aug",..: 19 9 8 13 2 14 11 10 3 18 ...
 ##  $ V2: int  2008 2313221 1950131 2346635 2039787 1756964 1458302 1679637 1639670 2882886 ...
@@ -88,13 +94,8 @@ str(ImportedAsIsData)
 ##  $ V6: int  2012 3093088 3679308 3433364 2714899 3011767 2726028 2483834 3055655 4200796 ...
 ##  $ V7: int  2013 4119526 3535744 3560974 3760065 2959933 2787898 2828744 3084113 5107775 ...
 ##  $ V8: int  2014 4308161 4155378 3924332 3659121 3898758 3313891 3595106 3502426 5619059 ...
-```
-
-```r
-str(ImportedPlanData)
-```
-
-```
+## 
+## > str(ImportedPlanData)
 ## 'data.frame':	97 obs. of  8 variables:
 ##  $ V1: Factor w/ 20 levels "","Apr","Aug",..: 19 7 6 11 2 12 9 8 3 15 ...
 ##  $ V2: int  2008 2243103 2162705 2720911 2011182 1877757 1819924 1682196 1893171 3325711 ...
@@ -104,13 +105,8 @@ str(ImportedPlanData)
 ##  $ V6: int  2012 3895396 3588151 3787240 3036434 2907891 2707822 2619486 3784557 4987460 ...
 ##  $ V7: int  2013 3580325 3863212 3606083 3213575 3139128 2998610 2785453 3083654 5143757 ...
 ##  $ V8: int  2014 4474000 4185565 4278119 3985542 3605973 3515173 3269444 3656112 5637391 ...
-```
-
-```r
-str(ImportedIndicators)
-```
-
-```
+## 
+## > str(ImportedIndicators)
 ## 'data.frame':	195 obs. of  8 variables:
 ##  $ V1: Factor w/ 28 levels "","Apr","Aug",..: 7 16 12 20 2 19 18 17 3 26 ...
 ##  $ V2: num  2008 97.4 97.8 98.3 98.1 ...
@@ -282,37 +278,37 @@ par(mfrow=c(3,2))
 plot(TotalAsIs_stl, col="black", main="TotalAsIs_stl")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 ```r
 plot(EfakAsIs_stl, col="black", main="EfakAsIs_stl")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-6-2.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-5-2.png)<!-- -->
 
 ```r
 plot(WugeAsIs_stl, col="black", main="WugeAsIs_stl")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-6-3.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-5-3.png)<!-- -->
 
 ```r
 plot(TotalEtelAsIs_stl, col="black", main="TotalEtelAsIs_stl")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-6-4.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-5-4.png)<!-- -->
 
 ```r
 plot(BlueEtelAsIs_stl, col="black", main="BlueEtelAsIs_stl")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-6-5.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-5-5.png)<!-- -->
 
 ```r
 plot(RedEtelAsIs_stl, col="black", main="RedEtelAsIs_stl")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-6-6.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-5-6.png)<!-- -->
 
 It is interesting to note that the almost linear trend is not seen in the individual segments. The individual trends run partially in opposite directions in the middle of the time scale, which causes the linear trend in the total As Is data.
 
@@ -327,7 +323,7 @@ plot(BlueEtelAsIs_stl$time.series[,"trend"], col="orange")
 plot(RedEtelAsIs_stl$time.series[,"trend"], col="purple")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 ## Modify seasonal component to a monthly base
 The modification of the seasonlity component can also be changed into a monthly view. It only makes sense to do this if the seasonality componant as the trend looks almost identical and the remainder is then randomly spread.
@@ -337,37 +333,37 @@ The modification of the seasonlity component can also be changed into a monthly 
 monthplot(TotalAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 ```r
 monthplot(EfakAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-8-2.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-7-2.png)<!-- -->
 
 ```r
 monthplot(WugeAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-8-3.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-7-3.png)<!-- -->
 
 ```r
 monthplot(TotalEtelAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-8-4.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-7-4.png)<!-- -->
 
 ```r
 monthplot(BlueEtelAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-8-5.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-7-5.png)<!-- -->
 
 ```r
 monthplot(RedEtelAsIs_stl$time.series[,"seasonal"], main="", ylab="Seasonal")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-8-6.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-7-6.png)<!-- -->
 
 ## Correlation with external indicators
 
@@ -398,7 +394,7 @@ CEPI <- ts(CEPIVector , start=c(2008,1), end=c(2013,12), frequency=12)
 plot(CEPI, main="CEPI")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, CEPI)
@@ -456,7 +452,7 @@ SIGov <- ts(SIGovVector , start=c(2008,1), end=c(2013,12), frequency=12)
 plot(SIGov, main="SIGov")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, SIGov)
@@ -514,7 +510,7 @@ Temperature <- ts(TemperatureVector, start=c(2008,1), end=c(2013,12), frequency=
 plot(Temperature, main="Temperature")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, Temperature)
@@ -572,7 +568,7 @@ Births <- ts(BirthsVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(Births, main="Births")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, Births)
@@ -630,7 +626,7 @@ SIExtern <- ts(SIExternVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(SIExtern, main="SIExtern")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, SIExtern)
@@ -688,7 +684,7 @@ UrbanoExports <- ts(UrbanoExportsVector, start=c(2008,1), end=c(2013,12), freque
 plot(UrbanoExports, main="UrbanoExports")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, UrbanoExports)
@@ -746,7 +742,7 @@ GlobalisationPartyMembers <- ts(GlobalisationPartyMembersVector, start=c(2008,1)
 plot(GlobalisationPartyMembers, main="GlobalisationPartyMembers")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, GlobalisationPartyMembers)
@@ -804,7 +800,7 @@ AEPI <- ts(AEPIVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(AEPI, main="AEPI")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, AEPI)
@@ -862,7 +858,7 @@ PPIEtel <- ts(PPIEtelVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(PPIEtel, main="PPIEtel")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, PPIEtel)
@@ -920,7 +916,7 @@ NationalHolidays <- ts(NationalHolidaysVector, start=c(2008,1), end=c(2013,12), 
 plot(NationalHolidays, main="NationalHolidays")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, NationalHolidays)
@@ -978,7 +974,7 @@ ChulwalarIndex <- ts(ChulwalarIndexVector, start=c(2008,1), end=c(2013,12), freq
 plot(ChulwalarIndex, main="ChulwalarIndex")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, ChulwalarIndex)
@@ -1036,7 +1032,7 @@ Inflation <- ts(InflationVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(Inflation, main="Inflation")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, Inflation)
@@ -1094,7 +1090,7 @@ IndependenceDayPresents <- ts(IndependenceDayPresentsVector, start=c(2008,1), en
 plot(IndependenceDayPresents, main="IndependenceDayPresents")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, IndependenceDayPresents)
@@ -1153,7 +1149,7 @@ InfluenceNationalHolidays <- ts(InfluenceNationalHolidaysVector, start=c(2008,1)
 plot(InfluenceNationalHolidays, main="InfluenceNationalHolidays")
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
 
 ```r
 cor(TotalAsIs, InfluenceNationalHolidays)
@@ -1371,7 +1367,7 @@ lines(Model_ses$mean, col="blue", type="o")
 legend("topleft",lty=1, col=c(1,"green"), c("data", expression(alpha == 0.671)),pch=1)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
 
 ## Holt's linear trend method   
 Holt added to the model in order to forecast using trends as well. For this it is necessary to add a beta, which determines the trend. If neither alpha nor beta is stated, both parameters will be optimised using ets(). The trend is exponential if the intercepts(level) and the gradient (slope) are multiplied with eachother. The values are worse. As the Beta was very low in the optimisation, the forecast is very similar to the ses() model. 
@@ -1431,7 +1427,7 @@ summary(Model_holt_1)
 plot(Model_holt_1)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
 
 ```r
 # expoential trend
@@ -1470,25 +1466,25 @@ summary(Model_holt_2)
 ## 
 ## Forecasts:
 ##          Point Forecast   Lo 80   Hi 80   Lo 95    Hi 95
-## Jan 2014        4488281 3063045 5870709 2288093  6592439
-## Feb 2014        4502175 2858704 6228843 2118900  7339898
-## Mar 2014        4516113 2661087 6477943 1961331  7840240
-## Apr 2014        4530094 2543712 6731277 1879254  8198963
-## May 2014        4544118 2389523 6939660 1667959  8743646
-## Jun 2014        4558186 2261479 7208066 1606165  9236375
-## Jul 2014        4572297 2152096 7448547 1492728  9776113
-## Aug 2014        4586452 2048583 7592478 1389956 10337699
-## Sep 2014        4600650 1979716 7764628 1293816 11000997
-## Oct 2014        4614893 1905094 7989744 1217896 11306876
-## Nov 2014        4629180 1827212 8104114 1193649 11964927
-## Dec 2014        4643510 1751975 8415983 1119471 12128600
+## Jan 2014        4488281 3126249 5906069 2400641  6608052
+## Feb 2014        4502175 2866081 6242385 2186182  7306985
+## Mar 2014        4516113 2703993 6518923 1935319  7946477
+## Apr 2014        4530094 2538047 6818647 1776758  8541301
+## May 2014        4544118 2376846 7072848 1645204  9001969
+## Jun 2014        4558186 2270134 7362586 1589235  9538612
+## Jul 2014        4572297 2175732 7573243 1462914 10143175
+## Aug 2014        4586452 2061464 7803531 1353576 10672748
+## Sep 2014        4600650 1990753 8036623 1287687 11072903
+## Oct 2014        4614893 1908284 8143518 1206751 11427050
+## Nov 2014        4629180 1846569 8284826 1143686 12101453
+## Dec 2014        4643510 1769460 8530828 1117587 12285812
 ```
 
 ```r
 plot(Model_holt_2)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-25-2.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-24-2.png)<!-- -->
 
 ## Dampened trends
 As such simple trends tend to forecast the future to positively, we have added a dampener. This also works for exponential trends. We also plot the level and slope individually for each model.
@@ -1548,7 +1544,7 @@ summary(Model_holt_3)
 plot(Model_holt_3)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
 
 ```r
 Model_holt_4 <- holt(TotalAsIs, exponential=TRUE, damped=TRUE,h=12)
@@ -1586,51 +1582,51 @@ summary(Model_holt_4)
 ## Training set 0.0254941
 ## 
 ## Forecasts:
-##          Point Forecast   Lo 80   Hi 80     Lo 95    Hi 95
-## Jan 2014        4470648 3095860 5883950 2365779.0  6529305
-## Feb 2014        4473164 2829233 6144568 2065243.4  7215295
-## Mar 2014        4475630 2642848 6456932 1950706.1  7751932
-## Apr 2014        4478047 2463938 6752449 1765663.0  8267351
-## May 2014        4480418 2301838 7025245 1671591.2  9097051
-## Jun 2014        4482742 2230544 7143722 1502052.2  9376839
-## Jul 2014        4485020 2075974 7428461 1410433.0  9726248
-## Aug 2014        4487253 1958186 7594566 1312118.4 10211557
-## Sep 2014        4489443 1898672 7682526 1241342.2 10771077
-## Oct 2014        4491589 1792909 7916362 1152763.2 11304123
-## Nov 2014        4493694 1736902 8001673 1070875.1 11559229
-## Dec 2014        4495757 1649679 8105963  993548.1 11930306
+##          Point Forecast   Lo 80   Hi 80   Lo 95    Hi 95
+## Jan 2014        4470648 3011535 5864401 2276161  6537932
+## Feb 2014        4473164 2781140 6217125 2122872  7323124
+## Mar 2014        4475630 2578972 6418472 1882420  7707497
+## Apr 2014        4478047 2405218 6725515 1697924  8274744
+## May 2014        4480418 2272539 6942891 1583894  8877497
+## Jun 2014        4482742 2147979 7123432 1472424  9382146
+## Jul 2014        4485020 2023460 7381976 1331504  9727460
+## Aug 2014        4487253 1961384 7548224 1277215 10340618
+## Sep 2014        4489443 1837999 7662537 1171968 10454478
+## Oct 2014        4491589 1751060 7897492 1119408 10906862
+## Nov 2014        4493694 1692621 7985836 1078188 11387928
+## Dec 2014        4495757 1572146 8122911 1015012 11692515
 ```
 
 ```r
 plot(Model_holt_4)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-26-2.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-25-2.png)<!-- -->
 
 ```r
 # level and slope can be plotted individually for each model. 
 plot(Model_holt_1$model$state)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-26-3.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-25-3.png)<!-- -->
 
 ```r
 plot(Model_holt_2$model$state)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-26-4.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-25-4.png)<!-- -->
 
 ```r
 plot(Model_holt_3$model$state)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-26-5.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-25-5.png)<!-- -->
 
 ```r
 plot(Model_holt_4$model$state)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-26-6.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-25-6.png)<!-- -->
 
 ```r
 plot(Model_holt_1, plot.conf=FALSE, ylab="Exports Chulwalar  )", xlab="Year", main="", fcol="white", type="o")
@@ -1647,7 +1643,7 @@ lines(Model_holt_4$mean, col="orange", type="o")
 legend("topleft",lty=1, col=c(1,"purple","blue","red","green","orange"), c("data", "SES","Holts auto", "Exponential", "Additive Damped", "Multiplicative Damped"),pch=1)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-26-7.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-25-7.png)<!-- -->
 
 ## Holt-Winter's seasonal method   
 Holt and Winters have expanded Holt's model further to include the seasonality aspect. The parameter gamma, which is for smoothing the seasonality, was added to achieve this. The values are better than the models without seasonality. This is logical, since the data is strongly influenced by seasonality.  In the following model, none of the parameters are given so that they will be optimised automatically. There are two models: one using an additive error model method and one using a multiplicative error model. The additive model gives slightly better results than the multiplicative model.
@@ -1710,7 +1706,7 @@ summary(Model_hw_1)
 plot(Model_hw_1)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
 
 ```r
 Model_hw_2 <- hw(TotalAsIs ,seasonal="multiplicative",h=12)
@@ -1769,7 +1765,7 @@ summary(Model_hw_2)
 plot(Model_hw_2)
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-27-2.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-26-2.png)<!-- -->
 
 ```r
 plot(Model_hw_1, ylab="Exports Chulwalar  ", plot.conf=FALSE, type="o", fcol="white", xlab="Year")
@@ -1780,7 +1776,7 @@ lines(Model_hw_2$mean, type="o", col="green")
 legend("topleft",lty=1, pch=1, col=1:3, c("data","Holt Winters' Additive","Holt Winters' Multiplicative"))
 ```
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-27-3.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-26-3.png)<!-- -->
 
 ```r
 # In order to use the results later, they need to be converted into point forcasts.
