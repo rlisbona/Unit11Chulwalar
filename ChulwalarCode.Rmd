@@ -3,9 +3,9 @@ title: "ChulwalarStudy"
 author: "Randy Lisbona, Christopher Farrar"
 date: "July 27, 2016"
 output:
+  pdf_document: default
   html_document:
     keep_md: yes
-  pdf_document: default
 ---
 
 # Introduction
@@ -56,7 +56,7 @@ Initial analysis involved checking correlation between As Is and Plan data in or
   1. Correlation is a measure of linear relationship between two variables. 
   2. The Chulwalar department of statistical analysis and forecasting has done a commendable job in developing the Plan Data!
   
-```{r echo=FALSE,eval=TRUE, fig.height=4, fig.width=4}
+```{r echo=FALSE,eval=TRUE, fig.height=8, fig.width=4}
 df <- data.frame(type =c("TotalAsIs-TotalPlan"),corr=cor(TotalAsIs, TotalPlan ), stringsAsFactors = FALSE)
 df<- rbind(df,data.frame(type=c("EfakAsIs-EfakPlan"),corr=cor(EfakAsIs , EfakPlan), stringsAsFactors = FALSE))
 df<- rbind(df,data.frame(type=c("WugeAsIs-WugePlan"),corr=cor(WugeAsIs, WugePlan), stringsAsFactors = FALSE))
@@ -107,7 +107,7 @@ RedEtelAsIs_stl <- stl(RedEtelAsIs , s.window=5)
 
 ```{r echo= FALSE}
 # Why doesnt mfrow work in this section but it does in next?
-par(mfrow=c(6,1))
+par(mfrow=c(3,2))
 plot(TotalAsIs_stl, col="black", main="TotalAsIs_stl")
 plot(EfakAsIs_stl, col="black", main="EfakAsIs_stl")
 plot(WugeAsIs_stl, col="black", main="WugeAsIs_stl")
@@ -176,7 +176,7 @@ cor(RedEtelAsIs , CEPI)
 ```
 
 # Monthly Satisfaction Index (SI) government based data
-```{r}
+```{r echo= FALSE}
 SIGovVector <- c(ImportedIndicators[16:27,2],ImportedIndicators[16:27,3],ImportedIndicators[16:27,4],ImportedIndicators[16:27,5],ImportedIndicators[16:27,6],ImportedIndicators[16:27,7])
 SIGov <- ts(SIGovVector , start=c(2008,1), end=c(2013,12), frequency=12)
 plot(SIGov, main="SIGov")
@@ -190,7 +190,7 @@ cor(RedEtelAsIs , SIGov)
 ```
 
 # Average monthly temperatures in Chulwalar
-```{r}
+```{r echo= FALSE}
 TemperatureVector <- c(ImportedIndicators[30:41,2],ImportedIndicators[30:41,3],ImportedIndicators[30:41,4],ImportedIndicators[30:41,5],ImportedIndicators[30:41,6],ImportedIndicators[30:41,7])
 Temperature <- ts(TemperatureVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(Temperature, main="Temperature")
@@ -204,7 +204,7 @@ cor(RedEtelAsIs , Temperature)
 ```
 
 # Monthly births in Chulwalar 
-```{r}
+```{r echo= FALSE}
 BirthsVector <- c(ImportedIndicators[44:55,2],ImportedIndicators[44:55,3],ImportedIndicators[44:55,4],ImportedIndicators[44:55,5],ImportedIndicators[44:55,6],ImportedIndicators[44:55,7])
 Births <- ts(BirthsVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(Births, main="Births")
@@ -218,7 +218,7 @@ cor(RedEtelAsIs , Births)
 ```
 
 # Monthly Satisfaction Index (SI) external index 
-```{r}
+```{r echo= FALSE}
 SIExternVector <- c(ImportedIndicators[58:69,2],ImportedIndicators[58:69,3],ImportedIndicators[58:69,4],ImportedIndicators[58:69,5],ImportedIndicators[58:69,6],ImportedIndicators[58:69,7])
 SIExtern <- ts(SIExternVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(SIExtern, main="SIExtern")
@@ -232,7 +232,7 @@ cor(RedEtelAsIs , SIExtern)
 ```
 
 # Yearly exports from Urbano
-```{r}
+```{r echo= FALSE}
 UrbanoExportsVector <- c(ImportedIndicators[72:83,2],ImportedIndicators[72:83,3],ImportedIndicators[72:83,4],ImportedIndicators[72:83,5],ImportedIndicators[72:83,6],ImportedIndicators[72:83,7])
 UrbanoExports <- ts(UrbanoExportsVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(UrbanoExports, main="UrbanoExports")
@@ -246,7 +246,7 @@ cor(RedEtelAsIs , UrbanoExports)
 ```
 
 # Yearly number of Globalisation Party members in Chulwalar
-```{r}
+```{r echo= FALSE}
 GlobalisationPartyMembersVector <- c(ImportedIndicators[86:97,2],ImportedIndicators[86:97,3],ImportedIndicators[86:97,4],ImportedIndicators[86:97,5],ImportedIndicators[86:97,6],ImportedIndicators[86:97,7])
 GlobalisationPartyMembers <- ts(GlobalisationPartyMembersVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(GlobalisationPartyMembers, main="GlobalisationPartyMembers")
@@ -260,7 +260,7 @@ cor(RedEtelAsIs , GlobalisationPartyMembers)
 ```
 
 # Monthly Average Export Price Index for Chulwalar
-```{r}
+```{r echo= FALSE}
 AEPIVector <- c(ImportedIndicators[100:111,2],ImportedIndicators[100:111,3],ImportedIndicators[100:111,4],ImportedIndicators[100:111,5],ImportedIndicators[100:111,6],ImportedIndicators[100:111,7])
 AEPI <- ts(AEPIVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(AEPI, main="AEPI")
@@ -384,6 +384,7 @@ The Akaike's Information Criterion(AIC/AICc) or the Bayesian Information Criteri
 ```{r}
 Model_ses <- ses(TotalAsIs, h=12)
 summary(Model_ses)
+OverallSummary <- GetForecastStats(Model_ses)
 plot(Model_ses, plot.conf=FALSE, ylab="Exports Chulwalar  )", xlab="Year", main="", fcol="white", type="o")
 lines(fitted(Model_ses), col="green", type="o")
 lines(Model_ses$mean, col="blue", type="o")
