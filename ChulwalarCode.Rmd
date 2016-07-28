@@ -7,7 +7,17 @@ output:
     keep_md: true
 ---
 
-Introduction: The Prime Minister of Chulwar personally invited aspiring SMU Data Scientist Students "Randy Lisbona" and "Christopher Farrar" to help them out with their forecast data. 
+# Introduction
+  The Prime Minister of Chulwalar personally invited aspiring SMU Data Scientist Students "Randy Lisbona" and
+  "Christopher Farrar" to help them out with their forecast data.In understanding his concerns, Randy and Chris
+  were empowered to answer the following questions in supporting the prime minister.
+  
+  * What is the best model for the export data and how we define the best?
+  
+  * Which forecast model is the best fit and how we define it
+  
+  * All of the different models we could consider could be useful or good. How do we choose among equally good
+   models
 
 # Set Up
 ```{r}
@@ -429,8 +439,15 @@ Model_hw_2_PointForecast
 #write.csv(Model_hw_2_PointForecast,file='Model_hw_2_PointForecast.csv')
 ```
 
-## Stop at section 7.1.3. These are advanced models not discussed in class. 
+## Conclusion
 
-## Use accuracy measurements to determine which method is best. 
+Based on the review of the data, and the type of data being explored: Error, Trend, Seasonal algorithm "ETS AAA" is the preferred method over autoregressive integrated moving average "ARIMA". ARIMA is based on assumptions that residuals are uncorrelated and normally distributed. If this doesn't occur, then forecast intervals are incorrect. "ETS AAA" doesn't face the same limitations of looking at correlations in data, linearity and stationarity. Also ETS provides an automatic way of selecting the best method. ETS MASE of .55 provides a better value of greater than 0 but less than one.
 
-## Summarize results.
+How we defined best fit is, the model that proves the best prediction of error, robust to outliers, good indicator of central tendency and provides the best measure of goodness is the best fit.
+
+When reviewing the different forecast model that was determined, and based on review of the different models, Holt's-Winters multiplicative method was chosen among the others. Mean absolute scaled error was  ".52" and the mean error was "17434.11".  The seasonal component is expressed in relative terms (percentages) and the series is seasonally adjusted by dividing through by the seasonal component." Also when seasonal variations are changing proportional to the level of series multiplicative method is preferred. The best fit for forecast is the model that provides the best time series review for your given data and the predication of bias and error in the data.   
+
+All of the models are equally good when considering the specific data. Based on observation and analysis of the data, any model that provides trend analyses, seasonal interpretation (additive/multiplicative) and greater interpretation of potential error is the one chosen. The model that produces the more accurate forecast with a low U1 statistic  between 0 and 1 indicate greater forecasting accuracy while taking into account potential forecasting bias that is captured by Mean Error "ME" 
+
+## Recommendation to Chulwalr Prime Minister:
+I need more Cowbell!
