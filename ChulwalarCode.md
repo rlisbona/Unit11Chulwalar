@@ -80,7 +80,7 @@ The results show a very high planning accuracy.
 ```
 ## 
 ## Call:
-## tslm(formula = TotalAsIs ~ TotalPlan)
+## tslm(formula = TotalAsIs ~ TotalPlan, data = TotalAsIs)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
@@ -105,7 +105,7 @@ The results show a very high planning accuracy.
 
   1. The individual time series can be shown graphically and tabularly. 
   2. The trend of the total exports is almost linear. 
-  3. A relatively uniform seaonality can be seen.
+  3. A relatively uniform seasonality can be seen.
 
 ![](ChulwalarCode_files/figure-html/unnamed-chunk-3-1.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-3-2.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-3-3.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-3-4.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-3-5.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-3-6.png)<!-- -->
 
@@ -114,9 +114,9 @@ It is interesting to note that the almost linear trend is not seen in the indivi
 ![](ChulwalarCode_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 ## Modify seasonal component to a monthly base
-The modification of the seasonlity component can also be changed into a monthly view. It only makes sense to do this if the seasonality componant as the trend looks almost identical and the remainder is then randomly spread.
+The modification of the seasonality component can also be changed into a monthly view. It only makes sense to do this if the seasonality componant as the trend looks almost identical and the remainder is then randomly spread.
 
-![](ChulwalarCode_files/figure-html/unnamed-chunk-5-1.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-5-2.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-5-3.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-5-4.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-5-5.png)<!-- -->![](ChulwalarCode_files/figure-html/unnamed-chunk-5-6.png)<!-- -->
+![](ChulwalarCode_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 ## Correlation with external indicators
 
@@ -137,7 +137,7 @@ The indicators are as follows:
 *	Proposed spending for National Holidays
 * Influence of National Holiday
 
-The indicators will be converted into individual  vectors and subsequently converted into time series. The correlation of the indicators will then be tested against the As Is exports for Chulwalar. 
+The indicators will be converted into individual vectors and subsequently converted into time series. The correlation of the indicators will then be tested against the As Is exports for Chulwalar. 
 
 # Monthly Change in Export Price Index (CEPI)
 ![](ChulwalarCode_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
@@ -1083,6 +1083,7 @@ summary(Model_ses)
 ```
 
 ```r
+OverallSummary <- GetForecastStats(Model_ses)
 plot(Model_ses, plot.conf=FALSE, ylab="Exports Chulwalar  )", xlab="Year", main="", fcol="white", type="o")
 lines(fitted(Model_ses), col="green", type="o")
 lines(Model_ses$mean, col="blue", type="o")
@@ -1188,18 +1189,18 @@ summary(Model_holt_2)
 ## 
 ## Forecasts:
 ##          Point Forecast   Lo 80   Hi 80   Lo 95    Hi 95
-## Jan 2014        4488281 3072183 5896528 2363011  6620301
-## Feb 2014        4502175 2843347 6164338 2057314  7252675
-## Mar 2014        4516113 2651125 6566360 1936754  7771100
-## Apr 2014        4530094 2497695 6805454 1802339  8538620
-## May 2014        4544118 2335331 6935027 1608506  8975449
-## Jun 2014        4558186 2202519 7278555 1546855  9513559
-## Jul 2014        4572297 2137216 7495217 1471915  9875331
-## Aug 2014        4586452 1989900 7585307 1362992 10713166
-## Sep 2014        4600650 1905119 7923962 1284064 10943052
-## Oct 2014        4614893 1866571 8099887 1213573 11532929
-## Nov 2014        4629180 1780487 7986374 1129145 12000064
-## Dec 2014        4643510 1728364 8253183 1086861 12270974
+## Jan 2014        4488281 3062914 5873724 2340707  6589759
+## Feb 2014        4502175 2845588 6252601 2109828  7455869
+## Mar 2014        4516113 2635741 6577737 1893972  8138781
+## Apr 2014        4530094 2500110 6822598 1799044  8648845
+## May 2014        4544118 2361572 6917004 1652926  8961815
+## Jun 2014        4558186 2220208 7232427 1512604  9397878
+## Jul 2014        4572297 2145124 7408591 1408286 10035038
+## Aug 2014        4586452 2034576 7627408 1304948 10443342
+## Sep 2014        4600650 1928090 7697203 1270097 10956127
+## Oct 2014        4614893 1854380 8008561 1164230 11625430
+## Nov 2014        4629180 1789521 7993313 1105289 11667737
+## Dec 2014        4643510 1705399 8194092 1075238 11927597
 ```
 
 ```r
@@ -1305,18 +1306,18 @@ summary(Model_holt_4)
 ## 
 ## Forecasts:
 ##          Point Forecast   Lo 80   Hi 80   Lo 95    Hi 95
-## Jan 2014        4470648 3079090 5885114 2328820  6677402
-## Feb 2014        4473164 2892998 6281169 2216733  7473138
-## Mar 2014        4475630 2637147 6558000 1953557  7842802
-## Apr 2014        4478047 2518468 6762440 1808920  8495764
-## May 2014        4480418 2349238 6960953 1647656  9010814
-## Jun 2014        4482742 2228099 7164623 1576719  9383361
-## Jul 2014        4485020 2095582 7340684 1441144 10030303
-## Aug 2014        4487253 2062972 7491329 1339645 10248505
-## Sep 2014        4489443 1919935 7697973 1253621 10814839
-## Oct 2014        4491589 1792152 7849751 1162093 11371396
-## Nov 2014        4493694 1743187 8039539 1062192 11769970
-## Dec 2014        4495757 1671484 8123265 1017554 11729500
+## Jan 2014        4470648 3092145 5862457 2342095  6590946
+## Feb 2014        4473164 2803222 6222406 2057937  7362805
+## Mar 2014        4475630 2649704 6532462 1934492  7879494
+## Apr 2014        4478047 2488756 6820340 1745374  8531845
+## May 2014        4480418 2344886 6942890 1624402  8916478
+## Jun 2014        4482742 2184745 7147375 1506949  9724685
+## Jul 2014        4485020 2091709 7196394 1380630  9783832
+## Aug 2014        4487253 1973957 7418960 1261172 10074907
+## Sep 2014        4489443 1857894 7511765 1195692 10460735
+## Oct 2014        4491589 1802607 7696953 1154776 11260370
+## Nov 2014        4493694 1690680 7837642 1095900 11267329
+## Dec 2014        4495757 1658414 7962319 1005338 11563325
 ```
 
 ```r
@@ -1535,13 +1536,29 @@ Model_hw_2_PointForecast
 
 ## Conclusion
 
-Based on the review of the data, and the type of data being explored: Error, Trend, Seasonal algorithm "ETS AAA" is the preferred method over autoregressive integrated moving average "ARIMA". ARIMA is based on assumptions that residuals are uncorrelated and normally distributed. If this doesn't occur, then forecast intervals are incorrect. "ETS AAA" doesn't face the same limitations of looking at correlations in data, linearity and stationarity. Also ETS provides an automatic way of selecting the best method. ETS MASE of .55 provides a better value of greater than 0 but less than one.
 
-How we defined best fit is, the model that proves the best prediction of error, robust to outliers, good indicator of central tendency and provides the best measure of goodness is the best fit.
+* Based on the review of the data, and the type of data being explored: Error, Trend, Seasonal algorithm "ETS AAA" is the
+  preferred method over autoregressive integrated moving average "ARIMA". ARIMA is based on assumptions that residuals are
+  uncorrelated and normally distributed. If this doesn't occur, then forecast intervals are incorrect. "ETS AAA" doesn't
+  face the same limitations of looking at correlations in data, linearity and stationarity. Also ETS provides an automatic
+  way of selecting the best method. ETS MASE of .55 provides a better value of greater than 0 but less than one.
 
-When reviewing the different forecast model that was determined, and based on review of the different models, Holt's-Winters multiplicative method was chosen among the others. Mean absolute scaled error was  ".52" and the mean error was "17434.11".  The seasonal component is expressed in relative terms (percentages) and the series is seasonally adjusted by dividing through by the seasonal component." Also when seasonal variations are changing proportional to the level of series multiplicative method is preferred. The best fit for forecast is the model that provides the best time series review for your given data and the predication of bias and error in the data.   
+* When reviewing the model to define the best fit is, the model that proves the best prediction of error, robust to
+  outliers, good indicator of central tendency and provides the best measure of goodness is the best fit.
 
-All of the models are equally good when considering the specific data. Based on observation and analysis of the data, any model that provides trend analyses, seasonal interpretation (additive/multiplicative) and greater interpretation of potential error is the one chosen. The model that produces the more accurate forecast with a low U1 statistic  between 0 and 1 indicate greater forecasting accuracy while taking into account potential forecasting bias that is captured by Mean Error "ME" 
+* When reviewing the different forecast model that was determined, and based on review of the different models,
+  Holt's-Winters multiplicative method was chosen among the others. Mean absolute scaled error was  ".52", the mean error
+  was "17434.11", and the root mean square error provided the best indicator for accurate forecasting.  Taking into
+  account seasonal fluctuations in the data was important during this case study. Lastly, when comparing "total-as-is"
+  plan to the "total-plan" using linear regression model and time series models provided a better understanging of
+  regression correlation and accuracy. The best fit for forecast is the model that provides the best time series review
+  for your given data and the predication of bias and error in the data.   
+
+* All of the models are equally good when considering the specific data. Based on observation and analysis of the data,
+  any model that provides trend analyses, seasonal interpretation (additive/multiplicative) and greater interpretation of
+  potential error is the one chosen. The model that produces an accurate forecast is a model that contains a low U1
+  statistic. Important to consider Mean error values as well as taking into account a full range of values in a statisticl
+  output 
 
 ## Recommendation to Chulwalr Prime Minister:
 When reviewing the different plots between efak, Wuge, and Etel. The primary export recommended would be Efak. It shows a strong linear progression from 2008 and is resistant to large swings in seasonal, export, and social holidays.
