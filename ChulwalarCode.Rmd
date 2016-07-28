@@ -3,9 +3,9 @@ title: "ChulwalarStudy"
 author: "Randy Lisbona, Christopher Farrar"
 date: "July 27, 2016"
 output:
+  pdf_document: default
   html_document:
     keep_md: yes
-  pdf_document: default
 ---
 
 # Introduction

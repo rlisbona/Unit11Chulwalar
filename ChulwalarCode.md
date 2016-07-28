@@ -1189,18 +1189,18 @@ summary(Model_holt_2)
 ## 
 ## Forecasts:
 ##          Point Forecast   Lo 80   Hi 80   Lo 95    Hi 95
-## Jan 2014        4488281 3150013 5858499 2344117  6559188
-## Feb 2014        4502175 2878716 6190958 2154883  7347573
-## Mar 2014        4516113 2715032 6549568 1937921  7956783
-## Apr 2014        4530094 2511346 6796568 1738196  8438687
-## May 2014        4544118 2381031 7083254 1666009  9015524
-## Jun 2014        4558186 2231717 7323174 1501487  9483639
-## Jul 2014        4572297 2126439 7440705 1482829  9908443
-## Aug 2014        4586452 2022958 7634910 1342160 10322233
-## Sep 2014        4600650 1960471 7814746 1283830 10797951
-## Oct 2014        4614893 1883049 8019174 1231654 11092395
-## Nov 2014        4629180 1818293 8165250 1123440 11421931
-## Dec 2014        4643510 1723802 8277259 1094204 11765431
+## Jan 2014        4488281 3080407 5903910 2331280  6632236
+## Feb 2014        4502175 2876585 6194477 2096077  7308659
+## Mar 2014        4516113 2675687 6525418 2010858  7991418
+## Apr 2014        4530094 2546260 6804114 1820538  8417861
+## May 2014        4544118 2403509 7014769 1673054  8929135
+## Jun 2014        4558186 2264052 7221292 1622395  9174209
+## Jul 2014        4572297 2143615 7379725 1451866  9708083
+## Aug 2014        4586452 2047241 7415473 1361305 10049253
+## Sep 2014        4600650 1974607 7649635 1292295 10865180
+## Oct 2014        4614893 1877777 7785452 1226587 11106712
+## Nov 2014        4629180 1809652 7968823 1188529 11403040
+## Dec 2014        4643510 1779687 8113207 1117772 11742226
 ```
 
 ```r
@@ -1306,18 +1306,18 @@ summary(Model_holt_4)
 ## 
 ## Forecasts:
 ##          Point Forecast   Lo 80   Hi 80   Lo 95    Hi 95
-## Jan 2014        4470648 3078262 5812979 2380231  6577105
-## Feb 2014        4473164 2845935 6178330 2133826  7329878
-## Mar 2014        4475630 2658647 6482315 1890878  8009537
-## Apr 2014        4478047 2460506 6720646 1759019  8425910
-## May 2014        4480418 2341038 6966224 1591222  9061449
-## Jun 2014        4482742 2220795 7198947 1543652  9672515
-## Jul 2014        4485020 2118855 7359540 1407327 10041774
-## Aug 2014        4487253 1968020 7654741 1288620 10332669
-## Sep 2014        4489443 1895404 7811776 1238320 10947979
-## Oct 2014        4491589 1786762 7882794 1167859 11196327
-## Nov 2014        4493694 1719825 8039971 1082666 11615834
-## Dec 2014        4495757 1676315 8224052 1014348 12176809
+## Jan 2014        4470648 3035985 5861550 2342420  6598411
+## Feb 2014        4473164 2835808 6216116 2194181  7287131
+## Mar 2014        4475630 2622340 6440193 1924958  7900448
+## Apr 2014        4478047 2496599 6751278 1806315  8288531
+## May 2014        4480418 2314000 6871344 1639571  8934331
+## Jun 2014        4482742 2183775 7073383 1556967  9194381
+## Jul 2014        4485020 2080247 7366194 1424078  9733713
+## Aug 2014        4487253 1966632 7510150 1335728 10177057
+## Sep 2014        4489443 1904476 7778241 1218395 10723457
+## Oct 2014        4491589 1767518 7956309 1128967 10993558
+## Nov 2014        4493694 1717426 7968734 1098636 11838950
+## Dec 2014        4495757 1655578 8077403 1059859 12001403
 ```
 
 ```r
@@ -1537,22 +1537,24 @@ Model_hw_2_PointForecast
 ## Conclusion
 
 
-* Based on the review of the data, and the type of data being explored: Error, Trend, Seasonal algorithm "ETS AAA" is the
-  preferred method over autoregressive integrated moving average "ARIMA". ARIMA is based on assumptions that residuals are
-  uncorrelated and normally distributed. If this doesn't occur, then forecast intervals are incorrect. "ETS AAA" doesn't
-  face the same limitations of looking at correlations in data, linearity and stationarity. Also ETS provides an automatic
-  way of selecting the best method. ETS MASE of .55 provides a better value of greater than 0 but less than one.
+* The ETS model was prefered over the ARIMA Model. In one sample ETS model, the Mean Absolute Squared Error of.55 was
+  prefered 15 differnt ARIMA models with values greater than 1.0. ETS ME of 21,588 was prefered over wide ranging values
+  of -18,789 to 178,628. Based on the review of the data, and the type of data being explored: Error, Trend, Seasonal
+  algorithm "ETS AAA" is the  preferred method over autoregressive integrated moving average "ARIMA". ARIMA is based on
+  assumptions that residuals are uncorrelated and normally distributed. If this doesn't occur, then forecast intervals are
+  incorrect. "ETS AAA" doesn't face the same limitations of looking at correlations in data, linearity and stationarity.
+  Also ETS provides an automatic way of selecting the best method. ETS MASE of .55 provides a better value of greater than
+  0 but less than one.
 
-* When reviewing the model to define the best fit is, the model that proves the best prediction of error, robust to
+* Reviewing the different model, to define the best fit is the model that proves the best prediction of error, robust to
   outliers, good indicator of central tendency and provides the best measure of goodness is the best fit.
 
-* When reviewing the different forecast model that was determined, and based on review of the different models,
-  Holt's-Winters multiplicative method was chosen among the others. Mean absolute scaled error was  ".52", the mean error
-  was "17434.11", and the root mean square error provided the best indicator for accurate forecasting.  Taking into
-  account seasonal fluctuations in the data was important during this case study. Lastly, when comparing "total-as-is"
-  plan to the "total-plan" using linear regression model and time series models provided a better understanging of
-  regression correlation and accuracy. The best fit for forecast is the model that provides the best time series review
-  for your given data and the predication of bias and error in the data.   
+* Holt's-Winters multiplicative method of MASE ".52", ME 17434.1, and RMSE  241,685 was prefered over other forecast
+  models. When reviewing the different forecast models the root mean square error provided the best indicator for accurate
+  forecasting.Taking into account seasonal fluctuations in the data was important during this case study. Lastly, when
+  comparing "total-as-is" plan to the "total-plan" using linear regression model and time series models provided a better
+  understanging of regression correlation and accuracy. The best fit for forecast is the model that provides the best time
+  series review for your given data and the predication of bias and error in the data.   
 
 * All of the models are equally good when considering the specific data. Based on observation and analysis of the data,
   any model that provides trend analyses, seasonal interpretation (additive/multiplicative) and greater interpretation of
