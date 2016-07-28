@@ -274,7 +274,7 @@ cor(RedEtelAsIs , AEPI)
 ```
 
 # Monthly Producer Price Index (PPI) for Etel in Chulwalar
-```{r}
+```{r echo= FALSE}
 PPIEtelVector <- c(ImportedIndicators[114:125,2],ImportedIndicators[114:125,3],ImportedIndicators[114:125,4],ImportedIndicators[114:125,5],ImportedIndicators[114:125,6],ImportedIndicators[114:125,7])
 PPIEtel <- ts(PPIEtelVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(PPIEtel, main="PPIEtel")
@@ -288,7 +288,7 @@ cor(RedEtelAsIs , PPIEtel)
 ```
 
 # National Holidays
-```{r}
+```{r echo= FALSE}
 NationalHolidaysVector <- c(ImportedIndicators[170:181,2],ImportedIndicators[170:181,3],ImportedIndicators[170:181,4],ImportedIndicators[170:181,5],ImportedIndicators[170:181,6],ImportedIndicators[170:181,7])
 NationalHolidays <- ts(NationalHolidaysVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(NationalHolidays, main="NationalHolidays")
@@ -302,7 +302,7 @@ cor(RedEtelAsIs , NationalHolidays)
 ```
 
 # Chulwalar Index (Total value of all companies in Chulwalar)
-```{r}
+```{r echo= FALSE}
 ChulwalarIndexVector <- c(ImportedIndicators[128:139,2],ImportedIndicators[128:139,3],ImportedIndicators[128:139,4],ImportedIndicators[128:139,5],ImportedIndicators[128:139,6],ImportedIndicators[128:139,7])
 ChulwalarIndex <- ts(ChulwalarIndexVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(ChulwalarIndex, main="ChulwalarIndex")
@@ -316,7 +316,7 @@ cor(RedEtelAsIs , ChulwalarIndex)
 ```
 
 # Monthly Inflation rate in Chulwalar 
-```{r}
+```{r echo= FALSE}
 InflationVector <- c(ImportedIndicators[142:153,2],ImportedIndicators[142:153,3],ImportedIndicators[142:153,4],ImportedIndicators[142:153,5],ImportedIndicators[142:153,6],ImportedIndicators[142:153,7])
 Inflation <- ts(InflationVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(Inflation, main="Inflation")
@@ -330,7 +330,7 @@ cor(RedEtelAsIs , Inflation)
 ```
 
 # Proposed spending for Independence day presents
-```{r}
+```{r echo= FALSE}
 IndependenceDayPresentsVector <- c(ImportedIndicators[156:167,2],ImportedIndicators[156:167,3],ImportedIndicators[156:167,4],ImportedIndicators[156:167,5],ImportedIndicators[156:167,6],ImportedIndicators[156:167,7])
 IndependenceDayPresents <- ts(IndependenceDayPresentsVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(IndependenceDayPresents, main="IndependenceDayPresents")
@@ -345,7 +345,7 @@ cor(RedEtelAsIs , IndependenceDayPresents)
 
 # Influence of National Holidays :
 This indicator is an experiment where the influence of National Holidays is extended into the months leading up to the holiday. However later tests show that this indicator is no better for forecasting than the orignial National Holidays indicator.  
-```{r}
+```{r echo= FALSE}
 InfluenceNationalHolidaysVector <- c(ImportedIndicators[184:195,2],ImportedIndicators[184:195,3],ImportedIndicators[184:195,4],ImportedIndicators[184:195,5],ImportedIndicators[184:195,6],ImportedIndicators[184:195,7])
 InfluenceNationalHolidays <- ts(InfluenceNationalHolidaysVector, start=c(2008,1), end=c(2013,12), frequency=12)
 plot(InfluenceNationalHolidays, main="InfluenceNationalHolidays")
@@ -359,7 +359,7 @@ cor(RedEtelAsIs , InfluenceNationalHolidays)
 ```
 
 # Check that the data import has worked
-```{r}
+```{r echo= FALSE}
 str(CEPIVector)
 str(SIGovVector)  
 str(TemperatureVector) 
@@ -381,7 +381,7 @@ Exponential Smoothing uses past values to calculate a forecast. The strength wit
 The Akaike's Information Criterion(AIC/AICc) or the Bayesian Information Criterion (BIC) should be at minimum.
 
 ## Simple expontential smoothing    
-```{r}
+```{r echo= FALSE}
 Model_ses <- ses(TotalAsIs, h=12)
 summary(Model_ses)
 OverallSummary <- GetForecastStats(Model_ses)
@@ -394,7 +394,7 @@ legend("topleft",lty=1, col=c(1,"green"), c("data", expression(alpha == 0.671)),
 ## Holt's linear trend method   
 Holt added to the model in order to forecast using trends as well. For this it is necessary to add a beta, which determines the trend. If neither alpha nor beta is stated, both parameters will be optimised using ets(). The trend is exponential if the intercepts(level) and the gradient (slope) are multiplied with eachother. The values are worse. As the Beta was very low in the optimisation, the forecast is very similar to the ses() model. 
 
-```{r}
+```{r echo= FALSE}
 Model_holt_1 <- holt(TotalAsIs,h=12)
 summary(Model_holt_1)
 plot(Model_holt_1)
@@ -407,7 +407,7 @@ plot(Model_holt_2)
 
 ## Dampened trends
 As such simple trends tend to forecast the future to positively, we have added a dampener. This also works for exponential trends. We also plot the level and slope individually for each model.
-```{r}
+```{r echo= FALSE}
 Model_holt_3 <- holt(TotalAsIs, damped=TRUE,h=12)
 summary(Model_holt_3)
 plot(Model_holt_3)
@@ -439,7 +439,7 @@ legend("topleft",lty=1, col=c(1,"purple","blue","red","green","orange"), c("data
 ## Holt-Winter's seasonal method   
 Holt and Winters have expanded Holt's model further to include the seasonality aspect. The parameter gamma, which is for smoothing the seasonality, was added to achieve this. The values are better than the models without seasonality. This is logical, since the data is strongly influenced by seasonality.  In the following model, none of the parameters are given so that they will be optimised automatically. There are two models: one using an additive error model method and one using a multiplicative error model. The additive model gives slightly better results than the multiplicative model.
 
-```{r}
+```{r echo= FALSE}
 Model_hw_1 <- hw(TotalAsIs ,seasonal="additive",h=12)
 summary(Model_hw_1)
 plot(Model_hw_1)
@@ -474,7 +474,7 @@ Based on the review of the data, and the type of data being explored: Error, Tre
 
 How we defined best fit is, the model that proves the best prediction of error, robust to outliers, good indicator of central tendency and provides the best measure of goodness is the best fit.
 
-When reviewing the different forecast model that was determined, and based on review of the different models, Holt's-Winters multiplicative method was chosen among the others. Mean absolute scaled error was  ".52" and the mean error was "17434.11".  The seasonal component is expressed in relative terms (percentages) and the series is seasonally adjusted by dividing through by the seasonal component." Also when seasonal variations are changing proportional to the level of series multiplicative method is preferred. Lastly, when comparing "total-as-is" plan to the "total-plan" using linear regression model and time series models provided a better understanging of regression correlation and accuracy. The best fit for forecast is the model that provides the best time series review for your given data and the predication of bias and error in the data.   
+When reviewing the different forecast model that was determined, and based on review of the different models, Holt's-Winters multiplicative method was chosen among the others. Mean absolute scaled error was  ".52" and the mean error was "17434.11".  The seasonal component is expressed in relative terms (percentages) and the series is seasonally adjusted by dividing through by the seasonal component." Also when seasonal variations are changing proportional to the level of series multiplicative method is preferred. The best fit for forecast is the model that provides the best time series review for your given data and the predication of bias and error in the data.   
 
 All of the models are equally good when considering the specific data. Based on observation and analysis of the data, any model that provides trend analyses, seasonal interpretation (additive/multiplicative) and greater interpretation of potential error is the one chosen. The model that produces the more accurate forecast with a low U1 statistic  between 0 and 1 indicate greater forecasting accuracy while taking into account potential forecasting bias that is captured by Mean Error "ME" 
 
