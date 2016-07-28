@@ -75,6 +75,22 @@ library(fpp) # for time series forecasting and analysis
 
 ```r
 library(forecast) # for some other forecasting models
+library(xtable)
+```
+
+```
+## 
+## Attaching package: 'xtable'
+```
+
+```
+## The following object is masked from 'package:timeDate':
+## 
+##     align
+```
+
+```r
+library(knitr)
 ```
 
 # Import the data
@@ -155,61 +171,17 @@ In order to be able to work with the partial data sets later, these need to be s
 ## Correlation between As Is and Plan Data
 Test the correlation between As Is and Plan data in order to test how exact the planning is. Correlation is a measure of linear relationship between two variables. 
 
-```r
-cor(TotalAsIs, TotalPlan )
-```
+Table: Correlation between As and Plan data
 
-```
-## [1] 0.9183402
-```
-
-```r
-cor(EfakAsIs , EfakPlan)
-```
-
-```
-## [1] 0.9055081
-```
-
-```r
-cor(WugeAsIs, WugePlan)
-```
-
-```
-## [1] 0.8788474
-```
-
-```r
-cor(TotalEtelAsIs, TotalEtelPlan)
-```
-
-```
-## [1] 0.9159505
-```
-
-```r
-cor(BlueEtelAsIs , BlueEtelPlan)
-```
-
-```
-## [1] 0.8044146
-```
-
-```r
-cor(RedEtelAsIs , RedEtelPlan)
-```
-
-```
-## [1] 0.9106702
-```
-
-```r
-cor(YearAsIs, YearPlan)
-```
-
-```
-## [1] 0.9627401
-```
+type                          corr 
+----------------------------  -----
+TotalAsIs-TotalPlan           0.92 
+EfakAsIs-EfakPlan             0.91 
+WugeAsIs-WugePlan             0.88 
+TotalEtelAsIs-TotalEtelPlan   0.92 
+BlueEtelAsIs-BlueEtelPlan     0.80 
+RedEtelAsIs-RedEtelPlan       0.91 
+YearAsIs-YearPlan             0.96 
 
 The results show a very high planning accuracy. 
 
@@ -270,14 +242,6 @@ summary(TotalAsIs_tslm)
 The time series can be analysed using the stl function in order to seperate the trend, seasonality and remainder (remaining coincidential) components from one another.
 
 
-```r
-TotalAsIs_stl <- stl(TotalAsIs, s.window=5)
-EfakAsIs_stl <- stl(EfakAsIs , s.window=5)
-WugeAsIs_stl <- stl(WugeAsIs, s.window=5)
-TotalEtelAsIs_stl <- stl(TotalEtelAsIs, s.window=5)
-BlueEtelAsIs_stl <- stl(BlueEtelAsIs , s.window=5)
-RedEtelAsIs_stl <- stl(RedEtelAsIs , s.window=5)
-```
 
 Thus the individual time series can be shown graphically and tabularly. The trend of the total exports is almost linear. A relatively uniform seaonality can be seen.
 
@@ -1476,6 +1440,7 @@ summary(Model_holt_2)
 ## 
 ## Forecasts:
 ##          Point Forecast   Lo 80   Hi 80   Lo 95    Hi 95
+<<<<<<< HEAD
 ## Jan 2014        4488281 3090465 5905649 2333877  6585057
 ## Feb 2014        4502175 2869750 6237214 2179486  7254105
 ## Mar 2014        4516113 2685877 6482147 1932880  7714919
@@ -1488,6 +1453,41 @@ summary(Model_holt_2)
 ## Oct 2014        4614893 1875131 8091501 1207508 11352766
 ## Nov 2014        4629180 1810108 8153271 1121197 11892778
 ## Dec 2014        4643510 1757100 8329938 1087677 12427638
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+## Jan 2014        4488281 3128311 5861414 2424975  6590528
+## Feb 2014        4502175 2929632 6192057 2225284  7377046
+## Mar 2014        4516113 2724834 6604148 2075797  7946866
+## Apr 2014        4530094 2567303 6805246 1876503  8605734
+## May 2014        4544118 2423008 7061189 1724333  9149306
+## Jun 2014        4558186 2338112 7234371 1609903  9547294
+## Jul 2014        4572297 2159890 7587953 1472402 10026121
+## Aug 2014        4586452 2084966 7698028 1397287 10101053
+## Sep 2014        4600650 1974010 7809330 1337840 10644014
+## Oct 2014        4614893 1898740 8058561 1237798 11385066
+## Nov 2014        4629180 1821559 8143903 1169729 11552251
+## Dec 2014        4643510 1746802 8374871 1057962 12096172
+=======
+=======
+>>>>>>> origin/master
+## Jan 2014        4488281 3060471 5903654 2323887  6624581
+## Feb 2014        4502175 2851883 6185583 2139737  7303804
+## Mar 2014        4516113 2644797 6501809 1905081  7841880
+## Apr 2014        4530094 2500869 6836338 1824345  8496679
+## May 2014        4544118 2374932 7104656 1691885  9056553
+## Jun 2014        4558186 2274687 7218532 1566098  9486479
+## Jul 2014        4572297 2162669 7390353 1463677  9817281
+## Aug 2014        4586452 2079471 7522613 1410278 10240106
+## Sep 2014        4600650 2003849 7639678 1318852 10564703
+## Oct 2014        4614893 1910314 7842706 1243044 11224937
+## Nov 2014        4629180 1806233 8098275 1150033 11699546
+## Dec 2014        4643510 1747147 8292833 1089239 12239483
+<<<<<<< HEAD
+>>>>>>> origin/master
+=======
+>>>>>>> origin/master
+>>>>>>> origin/master
 ```
 
 ```r
@@ -1592,6 +1592,7 @@ summary(Model_holt_4)
 ## Training set 0.0254941
 ## 
 ## Forecasts:
+<<<<<<< HEAD
 ##          Point Forecast   Lo 80   Hi 80   Lo 95    Hi 95
 ## Jan 2014        4470648 3046497 5860877 2368925  6613179
 ## Feb 2014        4473164 2834578 6205750 2102719  7282479
@@ -1605,6 +1606,43 @@ summary(Model_holt_4)
 ## Oct 2014        4491589 1787345 7824587 1136108 11184663
 ## Nov 2014        4493694 1750008 7985415 1117149 11498636
 ## Dec 2014        4495757 1629976 8181761 1055661 11988744
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+##          Point Forecast   Lo 80   Hi 80   Lo 95    Hi 95
+## Jan 2014        4470648 3047867 5856919 2372521  6599183
+## Feb 2014        4473164 2744942 6247038 1961542  7362432
+## Mar 2014        4475630 2605834 6496123 1881942  8049992
+## Apr 2014        4478047 2453785 6701019 1739277  8571411
+## May 2014        4480418 2305525 7041332 1584641  8898043
+## Jun 2014        4482742 2179171 7280571 1482112  9591780
+## Jul 2014        4485020 2053052 7528128 1384115  9978046
+## Aug 2014        4487253 1961057 7587640 1252034 10710083
+## Sep 2014        4489443 1867718 7723870 1180817 10998786
+## Oct 2014        4491589 1752341 7881549 1113189 10988826
+## Nov 2014        4493694 1704397 8079585 1090988 11881788
+## Dec 2014        4495757 1634432 8265720 1010776 12385618
+=======
+=======
+>>>>>>> origin/master
+##          Point Forecast   Lo 80   Hi 80     Lo 95    Hi 95
+## Jan 2014        4470648 3061166 5884769 2303141.8  6579572
+## Feb 2014        4473164 2848273 6138822 2095820.5  7254474
+## Mar 2014        4475630 2661334 6454154 1889255.1  7803629
+## Apr 2014        4478047 2443880 6619847 1745379.6  8327238
+## May 2014        4480418 2327040 6815195 1617317.9  8628486
+## Jun 2014        4482742 2133308 7113578 1463961.8  9301669
+## Jul 2014        4485020 2035098 7205570 1423510.8  9567002
+## Aug 2014        4487253 1943200 7402201 1304983.2 10022848
+## Sep 2014        4489443 1824340 7529721 1191141.8 10507485
+## Oct 2014        4491589 1795522 7672482 1108412.1 10731097
+## Nov 2014        4493694 1666034 7743726 1036115.1 10874268
+## Dec 2014        4495757 1617336 8009149  986146.3 11512663
+<<<<<<< HEAD
+>>>>>>> origin/master
+=======
+>>>>>>> origin/master
+>>>>>>> origin/master
 ```
 
 ```r

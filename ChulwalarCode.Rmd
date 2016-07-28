@@ -27,6 +27,8 @@ knitr::opts_knit$set(root.dir = normalizePath("..."))
 
 library(fpp) # for time series forecasting and analysis
 library(forecast) # for some other forecasting models
+library(xtable)
+library(knitr)
 ```
 
 # Import the data
@@ -45,14 +47,21 @@ source("./Analysis/TransformToTimeSeries.R", echo = FALSE,print.eval=FALSE)
 
 ## Correlation between As Is and Plan Data
 Test the correlation between As Is and Plan data in order to test how exact the planning is. Correlation is a measure of linear relationship between two variables. 
-```{r}
-cor(TotalAsIs, TotalPlan )
-cor(EfakAsIs , EfakPlan)
-cor(WugeAsIs, WugePlan)
-cor(TotalEtelAsIs, TotalEtelPlan)
-cor(BlueEtelAsIs , BlueEtelPlan)
-cor(RedEtelAsIs , RedEtelPlan)
-cor(YearAsIs, YearPlan)
+```{r echo=FALSE,eval=TRUE, fig.height=4, fig.width=4}
+df <- data.frame(type =c("TotalAsIs-TotalPlan"),corr=cor(TotalAsIs, TotalPlan ), stringsAsFactors = FALSE)
+df<- rbind(df,data.frame(type=c("EfakAsIs-EfakPlan"),corr=cor(EfakAsIs , EfakPlan), stringsAsFactors = FALSE))
+df<- rbind(df,data.frame(type=c("WugeAsIs-WugePlan"),corr=cor(WugeAsIs, WugePlan), stringsAsFactors = FALSE))
+df<- rbind(df,data.frame(type=c("TotalEtelAsIs-TotalEtelPlan"),corr=cor(TotalEtelAsIs, TotalEtelPlan), stringsAsFactors = FALSE))
+df<- rbind(df,data.frame(type=c("BlueEtelAsIs-BlueEtelPlan"),corr=cor(BlueEtelAsIs , BlueEtelPlan), stringsAsFactors = FALSE))
+df<- rbind(df,data.frame(type=c("RedEtelAsIs-RedEtelPlan"),corr=cor(RedEtelAsIs , RedEtelPlan), stringsAsFactors = FALSE))
+df<- rbind(df,data.frame(type=c("YearAsIs-YearPlan"),corr=cor(YearAsIs, YearPlan), stringsAsFactors = FALSE))
+
+kable(df,type ="html",caption = "Correlation between As and Plan data",align=c("l","l","r"), digits=2)
+#cor(WugeAsIs, WugePlan)
+#cor(TotalEtelAsIs, TotalEtelPlan)
+#cor(BlueEtelAsIs , BlueEtelPlan)
+#cor(RedEtelAsIs , RedEtelPlan)
+#cor(YearAsIs, YearPlan)
 ```
 
 The results show a very high planning accuracy. 
@@ -68,13 +77,15 @@ summary(TotalAsIs_tslm)
 ## Use STL function for decomposition
 The time series can be analysed using the stl function in order to seperate the trend, seasonality and remainder (remaining coincidential) components from one another.
 
-```{r}
+```{r echo= FALSE}
 TotalAsIs_stl <- stl(TotalAsIs, s.window=5)
 EfakAsIs_stl <- stl(EfakAsIs , s.window=5)
 WugeAsIs_stl <- stl(WugeAsIs, s.window=5)
 TotalEtelAsIs_stl <- stl(TotalEtelAsIs, s.window=5)
 BlueEtelAsIs_stl <- stl(BlueEtelAsIs , s.window=5)
 RedEtelAsIs_stl <- stl(RedEtelAsIs , s.window=5)
+library("xtable")
+
 ```
 
 Thus the individual time series can be shown graphically and tabularly. The trend of the total exports is almost linear. A relatively uniform seaonality can be seen.
