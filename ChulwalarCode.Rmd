@@ -463,4 +463,4 @@ When reviewing the different forecast model that was determined, and based on re
 All of the models are equally good when considering the specific data. Based on observation and analysis of the data, any model that provides trend analyses, seasonal interpretation (additive/multiplicative) and greater interpretation of potential error is the one chosen. The model that produces the more accurate forecast with a low U1 statistic  between 0 and 1 indicate greater forecasting accuracy while taking into account potential forecasting bias that is captured by Mean Error "ME" 
 
 ## Recommendation to Chulwalr Prime Minister:
-I need more Cowbell!
+When reviewing the different plots between efak, Wuge, and Etel. The primary export recommended would be Efak. It shows a strong linear progression from 2008 and is resistant to large swings in seasonal, export, and social holidays.
