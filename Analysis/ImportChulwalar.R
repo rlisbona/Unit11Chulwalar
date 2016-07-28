@@ -1,0 +1,6 @@
+ImportedAsIsData <- read.csv(file="./analysis/ImportedAsIsDataChulwalar.csv", header = F, sep=";", fill = T) 
+ImportedPlanData <- read.csv(file="./analysis/ImportedPlanDataChulwalar.csv", header = F, sep=";", fill = T) 
+ImportedIndicators <- read.csv(file="./analysis/ImportedIndicatorsChulwalar.csv", header = F, sep=";", fill = T)
+str(ImportedAsIsData)
+str(ImportedPlanData)
+str(ImportedIndicators)
