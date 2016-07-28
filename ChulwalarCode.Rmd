@@ -20,7 +20,7 @@ output:
    models
 
 
-```{r setup, echo=FALSE, results = "hide", message=FALSE}
+```{r setup, echo=FALSE, results = "hide", message=FALSE, warning=FALSE}
 knitr::opts_knit$set(root.dir = normalizePath("..."))
 getwd()
 library(fpp) # for time series forecasting and analysis  This is a minor change can I push it out
@@ -37,7 +37,7 @@ library(xtable)
   2. ImportedPlanDataChulwalar.csv
   3. ImportedIndicatorsChulwalar.csv
   
-```{r import, echo = FALSE, results = "hide"}
+```{r import, echo = FALSE, results = "hide", message=FALSE, warning=FALSE}
 getwd()
 source("./Analysis/ImportChulwalar.R", echo = FALSE, print.eval=FALSE)
 ```
@@ -46,7 +46,7 @@ source("./Analysis/ImportChulwalar.R", echo = FALSE, print.eval=FALSE)
 In order to be able to work with the partial data sets later, these need to be split into individual vectors and converted into times series.
 1. For details on time series conversion please refer to source file "./Analysis/TransformToTimeseries.R"
 
-```{r ExtractAndTransformToTimeSeries, echo = FALSE, eval=TRUE, results="hide"}
+```{r ExtractAndTransformToTimeSeries, echo = FALSE, eval=TRUE, results="hide", message=FALSE, warning=FALSE}
 source("./Analysis/TransformToTimeSeries.R", echo = FALSE,print.eval=FALSE)
 ```
 # Basic data analysis
